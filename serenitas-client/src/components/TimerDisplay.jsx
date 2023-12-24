@@ -7,7 +7,17 @@ const TimerDisplay = ({ timeRemaining }) => {
     return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
   };
 
-  return <div>{formatTime(timeRemaining)}</div>;
+  return (
+    <div
+      style={{
+        fontSize: "15em", // Adjusted font size to make it HUGE
+        fontWeight: "bold", // Added bold font weight for emphasis
+        color: "#fff", // Adjusted color (you can change it based on your theme)
+      }}
+    >
+      {formatTime(timeRemaining)}
+    </div>
+  );
 };
 
 export default TimerDisplay;
