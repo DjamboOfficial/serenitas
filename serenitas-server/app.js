@@ -3,12 +3,22 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const app = express();
 
+require("dotenv").config();
+require("./db");
+
 app.use(bodyParser.json());
 app.use(cors());
 
+const corsOptions = {
+  origin: "http://localhost:5173",
+};
+
 app.get("/", (req, res) => {
-  res.send("Welcome to the Serenitas server!");
+  res.send("Welcome to the serenitas server!");
 });
+
+const AuthRoutes = require("./routes/auth.routes");
+app.use("/auth", AuthRoutes);
 
 app.post("/api/data", (req, res) => {
   const clientData = req.body;

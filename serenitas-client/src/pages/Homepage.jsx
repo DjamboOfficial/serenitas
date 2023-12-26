@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Timer from "../components/Timer";
 import Navbar from "../components/Navbar";
 import backgroundImage from "../assets/colosseum.png";
+import "../App.css"; // Adjust the file path based on your project structure
 
 const Homepage = () => {
   const [theme, setTheme] = useState("default");
@@ -11,7 +12,7 @@ const Homepage = () => {
   };
 
   return (
-    <>
+    <div style={{ fontFamily: "Cinzel, sans-serif" }}>
       <Navbar />
       <div
         style={{
@@ -29,23 +30,23 @@ const Homepage = () => {
         <div className={`backdrop ${theme}`} style={{ textAlign: "center" }}>
           <h1
             style={{
-              fontSize: "6em", // Increased font size
+              fontSize: "5em", // Increased font size
               lineHeight: "1.1",
               margin: "0", // Remove default margin
-              color: theme === "dark" ? "#fff" : "#000",
+              color: "#fff",
             }}
           >
             Serenitas
           </h1>
           <Timer
             style={{
-              fontSize: "5em",
+              fontSize: "3em",
               color: theme === "dark" ? "#fff" : "#000",
             }}
           />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
