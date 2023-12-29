@@ -5,6 +5,16 @@
   text-align: center;
 }
 
+@font-face {
+  font-family: "Cinzel";
+  src: url("./assets/fonts/Cinzel-Black.otf") format("opentype"),
+    url("./assets/fonts/Cinzel-Black.ttf") format("truetype"),
+    url("./assets/fonts/Cinzel-Bold.otf") format("truetype"),
+    url("./assets/fonts/Cinzel-Bold.ttf") format("truetype"),
+    url("./assets/fonts/Cinzel-Regular.otf") format("truetype"),
+    url("./assets/fonts/Cinzel-Regular.ttf") format("truetype");
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;

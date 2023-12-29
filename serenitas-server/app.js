@@ -1,19 +1,23 @@
 const express = require("express");
-const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
 const cors = require("cors");
+const authRoutes = require("./routes/auth.routes");
+const userRoutes = require("./routes/user.routes"); // Fix the path
+
 const app = express();
 
-app.use(bodyParser.json());
-app.use(cors());
+mongoose.connect("mongodb://127.0.0.1:27017/serenitas");
 
-app.get("/", (req, res) => {
-  res.send("Welcome to the Serenitas server!");
-});
+const corsOptions = {
+  origin: "http://localhost:5173",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true,
+  optionsSuccessStatus: 204,
+};
 
-app.post("/api/data", (req, res) => {
-  const clientData = req.body;
-  console.log("Received data from the client", clientData);
-  res.json({ status: "success", message: "Data received" });
-});
+app.use(cors(corsOptions));
+
+app.use("/auth", authRoutes);
+app.use("/api/user", userRoutes);
 
 module.exports = app;

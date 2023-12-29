@@ -31,7 +31,6 @@ const Timer = () => {
     setIsRunning((prevState) => !prevState);
   };
 
-  // Function to reset the timer
   const resetTimer = () => {
     setIsRunning(false);
     setTimeRemaining(1500); // Reset time to 25 minutes in seconds

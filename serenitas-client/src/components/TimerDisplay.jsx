@@ -10,9 +10,9 @@ const TimerDisplay = ({ timeRemaining }) => {
   return (
     <div
       style={{
-        fontSize: "15em", // Adjusted font size to make it HUGE
-        fontWeight: "bold", // Added bold font weight for emphasis
-        color: "#fff", // Adjusted color (you can change it based on your theme)
+        fontSize: "8em",
+        fontWeight: "bold",
+        color: "#fff",
       }}
     >
       {formatTime(timeRemaining)}
