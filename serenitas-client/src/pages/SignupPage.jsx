@@ -31,17 +31,21 @@ function SignupPage(props) {
 
   const handleSignupSubmit = (e) => {
     e.preventDefault();
+    console.log("Request Body:", requestBody);
 
     axios
       .post(`${API_URL}/auth/signup`, requestBody)
       .then((response) => {
-        console.log(response);
-        navigate("/login");
+        const { token, user } = response.data;
+        console.log("2nd Signup Response:", response.data);
+        console.log(token, user);
+        navigate("/Homepage2");
       })
       .catch((error) => {
-        const errorDescription = error.response.data.message;
-        setErrorMessage(errorDescription);
+        console.error("Signup Error:", error.response.data);
+        // Rest of the error handling code...
       });
+    console.log(request.data);
   };
 
   return (

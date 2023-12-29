@@ -1,64 +1,86 @@
 const express = require("express");
-const authRouter = express.Router();
-const User = require("../models/User.model");
 const bcrypt = require("bcryptjs");
-const isAuthenticated = require("../middleware/isAuthenticated");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 
+const authRouter = express.Router();
+
+authRouter.use(express.json());
 authRouter.use(cookieParser());
 
+const User = require("../models/User.model");
+
+// User Signup
 authRouter.post("/signup", async (req, res, next) => {
-  const { email, password, username } = req.body;
-  if (!email || !password || !username) {
-    return res.status(400).json({ error: "All inputs are required" });
-  }
   try {
+    const { email, password, username } = req.body;
+
+    // Validate inputs
+    if (!email || !password || !username) {
+      return res.status(400).json({ error: "All inputs are required" });
+    }
+
+    // Check if the user already exists
     const foundUser = await User.findOne({ email });
     if (foundUser) {
       return res.status(400).json({ error: "User is already registered" });
     }
 
+    // Hash the password
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(password, salt);
 
-    // Generate a token for the user
-    const token = jwt.sign({ email, username }, process.env.TOKEN_SECRET, {
-      expiresIn: "1h",
-    });
-
-    // Store the token in the user document
-    const createdUser = await User.create({
+    // Create a new user
+    const newUser = await User.create({
       email,
       username,
       password: hash,
-      accessToken: token, // Change 'token' to your desired field name
     });
 
-    res.json(createdUser);
+    // Generate a token for the user
+    const token = jwt.sign({ userId: newUser._id }, process.env.TOKEN_SECRET, {
+      expiresIn: "1h",
+    });
+
+    // Store the token in an HTTP-only cookie
+    res.cookie("token", token, {
+      httpOnly: true,
+      // Other options like secure, sameSite, etc., can be added based on your needs
+    });
+
+    // Asynchronously add the token to the user's profile
+    await User.findByIdAndUpdate(newUser._id, { $push: { tokens: token } });
+    console.log(`1. User signed up - User ID: ${newUser._id}, Token: ${token}`);
+
+    res.status(201).json(newUser);
   } catch (err) {
     next(err);
   }
 });
 
+// User Login
 authRouter.post("/login", async (req, res, next) => {
-  const { email, password } = req.body;
-  if (!email || !password) {
-    return res.status(400).json({ error: "All inputs are required" });
-  }
   try {
+    const { email, password } = req.body;
+
+    // Validate inputs
+    if (!email || !password) {
+      return res.status(400).json({ error: "All inputs are required" });
+    }
+
+    // Check if the user exists
     const foundUser = await User.findOne({ email });
     if (!foundUser) {
       return res.status(400).json({ error: "User does not exist" });
     }
 
+    // Verify the password
     const isPasswordMatch = await bcrypt.compare(password, foundUser.password);
-
     if (!isPasswordMatch) {
       return res.status(400).json({ error: "Wrong password" });
     }
 
-    // Generate a new token for the user
+    // Generate a token
     const token = jwt.sign(
       { userId: foundUser._id },
       process.env.TOKEN_SECRET,
@@ -67,47 +89,34 @@ authRouter.post("/login", async (req, res, next) => {
       }
     );
 
-    // Update the user document with the new token
-    await User.findByIdAndUpdate(foundUser._id, { accessToken: token });
+    // Send the token in an HTTP-only cookie
+    res.cookie("token", token, { httpOnly: true });
 
-    const {
-      password: userPassword,
-      __v,
-      ...userDetails
-    } = foundUser.toObject();
+    // Asynchronously add the token to the user's profile
+    await User.findByIdAndUpdate(foundUser._id, { $push: { tokens: token } });
+    console.log(
+      `2. User logged in - User ID: ${foundUser._id}, Token: ${token}`
+    );
 
-    console.log("Current User:", userDetails);
-    console.log("Token:", token);
-
-    // Store the token in an HTTP-only cookie
-    res.cookie("token", token, {
-      httpOnly: true,
-      // other options like secure, sameSite, etc. can be added based on your needs
-    });
-
-    res.json({ user: userDetails });
+    res.json({ token });
   } catch (err) {
     next(err);
   }
 });
 
-authRouter.get("/auth/verify", isAuthenticated, (req, res) => {
-  res.json(req.user);
+// Verify User
+authRouter.get("/verify", (req, res) => {
+  const userId = req.user ? req.user.userId : "No user found";
+  console.log(`3. Verifying user - User ID: ${userId}`);
+  res.json({ message: "User verified" });
 });
 
-authRouter.post("/logout", isAuthenticated, (req, res) => {
-  try {
-    // Clear the HTTP-only cookie on the client side
-    res.clearCookie("token");
-
-    // Additional actions can be performed here before or after removing the token
-
-    // Send a response indicating successful logout
-    res.json({ message: "Logout successful" });
-  } catch (error) {
-    console.error("Error during logout:", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
+// User Logout
+authRouter.post("/logout", (req, res) => {
+  const userId = req.user ? req.user.userId : "No user found";
+  console.log(`4. Logging out user - User ID: ${userId}`);
+  res.clearCookie("token");
+  res.json({ message: "Logout successful" });
 });
 
 module.exports = authRouter;

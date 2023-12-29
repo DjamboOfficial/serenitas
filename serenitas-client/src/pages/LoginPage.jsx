@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import NavBar from "../components/Navbar";
@@ -15,19 +15,26 @@ import {
 
 const API_URL = "http://localhost:3000";
 
-function LoginPage(props) {
+function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState(undefined);
+  const [errorMessage, setErrorMessage] = useState(null);
   const navigate = useNavigate();
 
   const handleEmail = (e) => setEmail(e.target.value);
   const handlePassword = (e) => setPassword(e.target.value);
 
-  const requestBody = { email, password };
-
   const handleLoginSubmit = (e) => {
     e.preventDefault();
+
+    // Basic form validation
+    if (!email || !password) {
+      setErrorMessage("Please enter both email and password.");
+      return;
+    }
+
+    const requestBody = { email, password };
+
     // Make an axios request to the login endpoint
     axios
       .post(`${API_URL}/auth/login`, requestBody)
@@ -36,9 +43,10 @@ function LoginPage(props) {
 
         // Store the token in local storage
         localStorage.setItem("token", token);
+        console.log("Token stored in local storage:", token);
 
         // Redirect or perform other actions as needed
-        navigate("/Dashboard");
+        navigate("/Homepage2");
       })
       .catch((error) => {
         if (
