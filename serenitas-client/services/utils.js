@@ -17,3 +17,5 @@ export const fetchUserData = async () => {
     throw error;
   }
 };
+
+let currentTheme = "default";
