@@ -15,11 +15,7 @@ const Navbar2 = () => {
                 Dashboard
               </Link>
             </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/selectTheme">
-                Select Theme
-              </Link>
-            </li>
+
             <li className="nav-item">
               <Link className="nav-link" to="/logout">
                 Logout
