@@ -18,7 +18,7 @@ const API_URL = "http://localhost:3000";
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
   const handleEmail = (e) => setEmail(e.target.value);
@@ -46,7 +46,7 @@ function LoginPage() {
         console.log("Token stored in local storage:", token);
 
         // Redirect or perform other actions as needed
-        navigate("/Homepage2");
+        navigate("/homepageLoggedIn");
       })
       .catch((error) => {
         if (
@@ -68,14 +68,13 @@ function LoginPage() {
       <NavBar />
       <div
         style={{
-          flex: 1,
-          minHeight: "100vh",
           display: "flex",
-          flexDirection: "column",
+          minHeight: "100vh",
+          minWidth: "100vh",
           backgroundImage: `url(${backgroundImage})`,
           backgroundSize: "cover",
           alignItems: "center",
-          justifyContent: "flex-start", // Align content closer to the top
+          justifyContent: "center", // Center content both horizontally and vertically
           padding: "15vh 0",
         }}
       >
@@ -127,11 +126,6 @@ function LoginPage() {
             </MDBCol>
           </MDBRow>
         </MDBContainer>
-        <div
-          style={{
-            marginBottom: "1%",
-          }}
-        ></div>
       </div>
     </div>
   );

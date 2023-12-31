@@ -5,7 +5,7 @@ import Homepage from "./pages/Homepage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import Dashboard from "./pages/Dashboard";
-import Homepage2 from "./pages/Homepage2";
+import HomepageLoggedIn from "./pages/HomepageLoggedIn";
 
 const App = () => {
   return (
@@ -17,7 +17,7 @@ const App = () => {
         <Route path="/logout" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/homepage2" element={<Homepage2 />} />
+        <Route path="/homepageLoggedIn" element={<HomepageLoggedIn />} />
       </Routes>
     </Router>
   );

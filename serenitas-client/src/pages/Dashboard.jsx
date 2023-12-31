@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Timer from "../components/Timer";
 import Navbar2 from "../components/Navbar2";
 import backgroundImage from "../assets/parchment.png";
 import "../App.css"; // Adjust the file path based on your project structure

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import NavBar from "../components/Navbar";
@@ -19,7 +19,7 @@ function SignupPage(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUserName] = useState("");
-  const [errorMessage, setErrorMessage] = useState(undefined);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const navigate = useNavigate();
 
@@ -43,7 +43,7 @@ function SignupPage(props) {
       })
       .catch((error) => {
         console.error("Signup Error:", error.response.data);
-        // Rest of the error handling code...
+        setErrorMessage("An error occurred during signup. Please try again.");
       });
     console.log(request.data);
   };

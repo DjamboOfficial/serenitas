@@ -5,7 +5,7 @@ import backgroundImage from "../assets/colosseum.png";
 import { fetchUserData } from "../../services/utils";
 import "../App.css";
 
-const Homepage2 = () => {
+const HomepageLoggedIn = () => {
   const [isTimerCompleted, setIsTimerCompleted] = useState(false);
   const [userData, setUserData] = useState(null);
 
@@ -82,4 +82,4 @@ const Homepage2 = () => {
   );
 };
 
-export default Homepage2;
+export default HomepageLoggedIn;
