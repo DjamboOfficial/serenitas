@@ -115,7 +115,16 @@ authRouter.get("/verify", (req, res) => {
 authRouter.post("/logout", (req, res) => {
   const userId = req.user ? req.user.userId : "No user found";
   console.log(`4. Logging out user - User ID: ${userId}`);
+
+  // Clear the cookie
   res.clearCookie("token");
+
+  // Clear the token from local storage (assuming you stored it with the key "token")
+  if (req.cookies.token) {
+    // If the cookie was set, remove it from local storage
+    localStorage.removeItem("token");
+  }
+
   res.json({ message: "Logout successful" });
 });
 
