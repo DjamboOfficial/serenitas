@@ -1,15 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Timer from "../components/Timer";
 import Navbar from "../components/Navbar";
 import backgroundImage from "../assets/colosseum.png";
-import "../App.css"; // Adjust the file path based on your project structure
+import "../App.css";
 
 const Homepage = () => {
   const [theme, setTheme] = useState("default");
 
-  const handleThemeChange = (selectedTheme) => {
-    setTheme(selectedTheme);
-  };
+  useEffect(() => {
+    // Set background properties when the component mounts
+    document.body.style.backgroundSize = "100% 100%";
+    document.body.style.backgroundRepeat = "no-repeat";
+
+    // Clean up the effect when the component unmounts
+    return () => {
+      document.body.style.backgroundSize = null;
+      document.body.style.backgroundRepeat = null;
+    };
+  }, []); // Empty dependency array ensures the effect runs only once
 
   return (
     <div style={{ fontFamily: "Cinzel, sans-serif" }}>
@@ -23,16 +31,16 @@ const Homepage = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          justifyContent: "flex-start", // Align content closer to the top
-          padding: "15vh 0", // Adjusted padding
+          justifyContent: "flex-start",
+          padding: "15vh 0",
         }}
       >
         <div className={`backdrop ${theme}`} style={{ textAlign: "center" }}>
           <h1
             style={{
-              fontSize: "5em", // Increased font size
+              fontSize: "5em",
               lineHeight: "1.1",
-              margin: "0", // Remove default margin
+              margin: "0",
               color: "#fff",
             }}
           >
