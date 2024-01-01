@@ -36,16 +36,6 @@ const Homepage = () => {
         }}
       >
         <div className={`backdrop ${theme}`} style={{ textAlign: "center" }}>
-          <h1
-            style={{
-              fontSize: "5em",
-              lineHeight: "1.1",
-              margin: "0",
-              color: "#fff",
-            }}
-          >
-            Serenitas
-          </h1>
           <Timer
             style={{
               fontSize: "3em",

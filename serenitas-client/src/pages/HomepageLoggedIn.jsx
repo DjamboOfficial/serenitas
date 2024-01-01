@@ -85,14 +85,18 @@ const HomepageLoggedIn = () => {
   };
 
   return (
-    <>
+    <div
+      style={{
+        fontFamily: "Cinzel, sans-serif",
+      }}
+    >
       <Navbar2 />
       <div
         style={{
           fontFamily: "Cinzel, sans-serif",
           margin: "0",
           padding: "0",
-          minHeight: "80vh",
+          minHeight: "130vh",
           minWidth: "100vh",
           display: "flex",
           flexDirection: "column",
@@ -105,16 +109,6 @@ const HomepageLoggedIn = () => {
             <h2 style={{ color: "#fff" }}>Ave, {userData.username}!</h2>
           )}
 
-          <h1
-            style={{
-              fontSize: "5em",
-              lineHeight: "1.1",
-              margin: "0",
-              color: "#fff",
-            }}
-          >
-            Serenitas
-          </h1>
           <Timer
             style={{
               fontSize: "3em",
@@ -126,14 +120,16 @@ const HomepageLoggedIn = () => {
         <div style={{ marginTop: "20px" }}>
           <button>View Projects</button>
           <button>Add Project</button>
-          <select onChange={handleThemeChange}>
-            <option value="">Select Theme</option>
-            <option value="blacksmith">Blacksmith</option>
-            <option value="emperor">Emperor</option>
-            <option value="gladiator">Gladiator</option>
-            <option value="senator">Senator</option>
-            <option value="philosopher">Philosopher</option>
-          </select>
+          <button>
+            <select onChange={handleThemeChange}>
+              <option value="">Select Theme</option>
+              <option value="blacksmith">Blacksmith</option>
+              <option value="emperor">Emperor</option>
+              <option value="gladiator">Gladiator</option>
+              <option value="senator">Senator</option>
+              <option value="philosopher">Philosopher</option>
+            </select>
+          </button>
           {isTimerCompleted && <button>Add completed timer</button>}
         </div>
 
@@ -142,7 +138,7 @@ const HomepageLoggedIn = () => {
           Field Content
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
