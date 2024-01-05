@@ -7,13 +7,16 @@ import emperorImage from "../assets/emperor.png";
 import gladiatorImage from "../assets/gladiator.png";
 import philosopherImage from "../assets/philosopher.png";
 import senatorImage from "../assets/senator.png";
-import { fetchUserData } from "../../services/utils";
+import { fetchUserData } from "../../services/fetchUserData";
 import "../App.css";
 
 const HomepageLoggedIn = () => {
   const [isTimerCompleted, setIsTimerCompleted] = useState(false);
   const [userData, setUserData] = useState(null);
   const [selectedTheme, setSelectedTheme] = useState("");
+  const [customMessage, setCustomMessage] = useState("");
+  const [newProjectName, setNewProjectName] = useState("");
+  const [showTextarea, setShowTextarea] = useState(false); // State to control visibility
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -84,6 +87,62 @@ const HomepageLoggedIn = () => {
     });
   };
 
+  const handleAddProject = async () => {
+    if (!showTextarea) {
+      setShowTextarea(true);
+      setCustomMessage(false); // Show the textarea when Add Project is clicked
+      return;
+    }
+
+    if (newProjectName.trim() === "") {
+      setCustomMessage("Please enter a project name.");
+      return;
+    }
+
+    try {
+      const createdProject = await createProject(userData._id, newProjectName);
+      setUserData((prevUserData) => ({
+        ...prevUserData,
+        projects: [...prevUserData.projects, createdProject],
+      }));
+      setCustomMessage(`Project "${newProjectName}" created successfully.`);
+      setNewProjectName(""); // Clear the project name input field
+      setShowTextarea(false); // Hide the textarea after adding the project
+    } catch (error) {
+      console.error("Error creating project:", error);
+      setCustomMessage("Error creating project. Please try again.");
+    }
+  };
+
+  const handleViewProjects = () => {
+    setShowTextarea(false); // Hide the textarea when View Projects is clicked
+  };
+
+  // Assuming userData.token is the user's token
+  const handleSaveProject = async () => {
+    if (newProjectName.trim() === "") {
+      setCustomMessage("Please enter a project name.");
+      return;
+    }
+
+    try {
+      const createdProject = await createProject(
+        userData.token,
+        newProjectName
+      );
+      setUserData((prevUserData) => ({
+        ...prevUserData,
+        projects: [...prevUserData.projects, createdProject],
+      }));
+      setCustomMessage(`Project "${newProjectName}" saved successfully.`);
+      setNewProjectName(""); // Clear the project name input field
+      setShowTextarea(false); // Hide the textarea after saving the project
+    } catch (error) {
+      console.error("Error saving project:", error);
+      setCustomMessage("Error saving project. Please try again.");
+    }
+  };
+
   return (
     <div
       style={{
@@ -118,10 +177,25 @@ const HomepageLoggedIn = () => {
         </div>
 
         <div style={{ marginTop: "20px" }}>
-          <button>View Projects</button>
-          <button>Add Project</button>
+          <button onClick={handleViewProjects}>View Projects</button>
+          <button onClick={handleAddProject}>Add Project</button>
+          {/* Move the textarea below the buttons */}
+          {showTextarea && (
+            <div style={{ marginTop: "20px" }}>
+              <textarea
+                placeholder="Enter project name"
+                value={newProjectName}
+                onChange={(e) => setNewProjectName(e.target.value)}
+                style={{ margin: "5px" }}
+              />
+              <button></button>
+            </div>
+          )}
           <button>
-            <select onChange={handleThemeChange}>
+            <select
+              onChange={handleThemeChange}
+              style={{ background: "none", border: "none" }}
+            >
               <option value="">Select Theme</option>
               <option value="blacksmith">Blacksmith</option>
               <option value="emperor">Emperor</option>
@@ -134,8 +208,24 @@ const HomepageLoggedIn = () => {
         </div>
 
         <div style={{ marginTop: "20px", color: "#fff" }}>
-          {/* You can add content here */}
-          Field Content
+          {!showTextarea && (
+            <>
+              {customMessage ? (
+                <p>{customMessage}</p>
+              ) : userData && userData.projects.length > 0 ? (
+                <div>
+                  <h3>User Projects</h3>
+                  <ul>
+                    {userData.projects.map((project) => (
+                      <li key={project._id}>{project.name}</li>
+                    ))}
+                  </ul>
+                </div>
+              ) : (
+                <p>No Projects found. Start by adding a project!</p>
+              )}
+            </>
+          )}
         </div>
       </div>
     </div>

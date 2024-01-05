@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import NavBar from "../components/Navbar";
-import backgroundImage from "../assets/UserDatabaseBackdrop.png";
+import backgroundImage from "../assets/colosseum.png";
 import {
   MDBBtn,
   MDBCol,
@@ -39,7 +39,7 @@ function SignupPage(props) {
         const { token, user } = response.data;
         console.log("2nd Signup Response:", response.data);
         console.log(token, user);
-        navigate("/Homepage2");
+        navigate("/HomepageLoggedIn");
       })
       .catch((error) => {
         console.error("Signup Error:", error.response.data);
