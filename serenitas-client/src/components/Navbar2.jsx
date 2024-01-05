@@ -5,8 +5,11 @@ const Navbar2 = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
-        <Link className="navbar-brand" to="/">
+        <Link className="navbar-brand" to="/homepageLoggedIn">
           Serenitas
+        </Link>
+        <Link className="navbar-boh" to="/about">
+          About me
         </Link>
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
