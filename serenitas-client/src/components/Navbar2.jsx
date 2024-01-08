@@ -6,7 +6,7 @@ const Navbar2 = () => {
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
         <Link className="navbar-brand" to="/homepageLoggedIn">
-          Serenitas
+          serenitas
         </Link>
         <Link className="navbar-boh" to="/about">
           About me

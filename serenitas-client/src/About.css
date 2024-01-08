@@ -1,0 +1,26 @@
+/* About.css */
+
+.about-container {
+  max-width: 1800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.about-container h1 {
+  color: #333;
+}
+
+.about-container p {
+  line-height: 1.5;
+  color: #666;
+}
+
+.about-container a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.about-container a:hover {
+  text-decoration: underline;
+}

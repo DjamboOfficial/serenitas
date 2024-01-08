@@ -126,14 +126,19 @@ const HomepageLoggedIn = () => {
     }
 
     try {
-      const createdProject = await createProject(
+      // Call the saveProject function from your API
+      const savedProject = await saveProject(
         userData.token,
+        userData._id,
         newProjectName
       );
+
+      // Update the user data with the saved project
       setUserData((prevUserData) => ({
         ...prevUserData,
-        projects: [...prevUserData.projects, createdProject],
+        projects: [...prevUserData.projects, savedProject],
       }));
+
       setCustomMessage(`Project "${newProjectName}" saved successfully.`);
       setNewProjectName(""); // Clear the project name input field
       setShowTextarea(false); // Hide the textarea after saving the project
