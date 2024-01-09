@@ -16,7 +16,7 @@ const HomepageLoggedIn = () => {
   const [selectedTheme, setSelectedTheme] = useState("");
   const [customMessage, setCustomMessage] = useState("");
   const [newProjectName, setNewProjectName] = useState("");
-  const [showTextarea, setShowTextarea] = useState(false); // State to control visibility
+  const [showTextarea, setShowTextarea] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -33,40 +33,24 @@ const HomepageLoggedIn = () => {
   }, []);
 
   useEffect(() => {
-    // Update background image based on selected theme
-    switch (selectedTheme) {
-      case "blacksmith":
-        document.body.style.backgroundImage = `url(${blacksmithImage})`;
-        document.body.style.backgroundSize = "100% 100%";
-        document.body.style.backgroundRepeat = "no-repeat";
-        break;
-      case "emperor":
-        document.body.style.backgroundImage = `url(${emperorImage})`;
-        document.body.style.backgroundSize = "100% 100%";
-        document.body.style.backgroundRepeat = "no-repeat";
-        break;
-      case "gladiator":
-        document.body.style.backgroundImage = `url(${gladiatorImage})`;
-        document.body.style.backgroundSize = "100% 100%";
-        document.body.style.backgroundRepeat = "no-repeat";
-        break;
-      case "senator":
-        document.body.style.backgroundImage = `url(${senatorImage})`;
-        document.body.style.backgroundSize = "100% 100%";
-        document.body.style.backgroundRepeat = "no-repeat";
-        break;
-      case "philosopher":
-        document.body.style.backgroundImage = `url(${philosopherImage})`;
-        document.body.style.backgroundSize = "100% 100%";
-        document.body.style.backgroundRepeat = "no-repeat";
-        break;
-      default:
-        document.body.style.backgroundImage = `url(${backgroundImage})`;
-        document.body.style.backgroundSize = "100% 100%";
-        document.body.style.backgroundRepeat = "no-repeat";
-        break;
-    }
+    updateBackgroundImage();
   }, [selectedTheme]);
+
+  const updateBackgroundImage = () => {
+    const themeImages = {
+      blacksmith: blacksmithImage,
+      emperor: emperorImage,
+      gladiator: gladiatorImage,
+      senator: senatorImage,
+      philosopher: philosopherImage,
+    };
+
+    const backgroundImageUrl = themeImages[selectedTheme] || backgroundImage;
+
+    document.body.style.backgroundImage = `url(${backgroundImageUrl})`;
+    document.body.style.backgroundSize = "100% 100%";
+    document.body.style.backgroundRepeat = "no-repeat";
+  };
 
   const handleThemeChange = (event) => {
     setSelectedTheme(event.target.value);
@@ -74,86 +58,124 @@ const HomepageLoggedIn = () => {
 
   const handleTimerCompletion = () => {
     setIsTimerCompleted(true);
-    const audio = new Audio("../assets/sounds/timer-completed.wav");
+    playAudio("../assets/sounds/timer-completed.wav");
+  };
 
-    // Handle errors
+  const playAudio = (audioUrl) => {
+    const audio = new Audio(audioUrl);
     audio.addEventListener("error", (error) => {
       console.error("Error loading audio:", error);
     });
-
-    // Play the audio when it's ready
     audio.addEventListener("canplay", () => {
       audio.play();
     });
   };
 
-  const handleAddProject = async () => {
+  const handleAddProject = () => {
     if (!showTextarea) {
       setShowTextarea(true);
-      setCustomMessage(false); // Show the textarea when Add Project is clicked
-      return;
+      setCustomMessage(false);
+    } else {
+      saveOrUpdateProject();
     }
+  };
 
+  const saveOrUpdateProject = async () => {
     if (newProjectName.trim() === "") {
       setCustomMessage("Please enter a project name.");
       return;
     }
 
     try {
-      const createdProject = await createProject(userData._id, newProjectName);
+      const apiUrl = showTextarea
+        ? "http://localhost:3000/api/user/projects"
+        : `http://localhost:3000/api/user/${userData._id}/projects/${newProjectName}`;
+
+      const method = showTextarea ? "POST" : "PUT";
+
+      const response = await fetch(apiUrl, {
+        method,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: newProjectName,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          `Failed to ${showTextarea ? "create" : "update"} project. Status: ${
+            response.status
+          }`
+        );
+      }
+
+      const updatedProjects = response.projects.map((project) => ({
+        _id: project._id,
+        name: project.name,
+      }));
+
       setUserData((prevUserData) => ({
         ...prevUserData,
-        projects: [...prevUserData.projects, createdProject],
+        projects: updatedProjects,
       }));
-      setCustomMessage(`Project "${newProjectName}" created successfully.`);
-      setNewProjectName(""); // Clear the project name input field
-      setShowTextarea(false); // Hide the textarea after adding the project
+
+      setCustomMessage(
+        `Project "${newProjectName}" ${
+          showTextarea ? "created" : "updated"
+        } successfully.`
+      );
+
+      setNewProjectName("");
+      setShowTextarea(false);
     } catch (error) {
-      console.error("Error creating project:", error);
-      setCustomMessage("Error creating project. Please try again.");
+      console.error(
+        `Error ${showTextarea ? "creating" : "updating"} project:`,
+        error
+      );
+      setCustomMessage(
+        `Error ${
+          showTextarea ? "creating" : "updating"
+        } project. Please try again.`
+      );
     }
   };
 
   const handleViewProjects = () => {
-    setShowTextarea(false); // Hide the textarea when View Projects is clicked
+    setShowTextarea(false);
+    console.log(userData.projects);
   };
 
-  // Assuming userData.token is the user's token
-  const handleSaveProject = async () => {
-    if (newProjectName.trim() === "") {
-      setCustomMessage("Please enter a project name.");
-      return;
-    }
-
+  const handleDeleteProject = async (projectId) => {
     try {
-      // Call the saveProject function from your API
-      const savedProject = await saveProject(
-        userData.token,
-        userData._id,
-        newProjectName
+      const response = await fetch(
+        `http://localhost:3000/api/user/projects/${projectId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
       );
 
-      // Update the user data with the saved project
-      setUserData((prevUserData) => ({
-        ...prevUserData,
-        projects: [...prevUserData.projects, savedProject],
-      }));
+      if (!response.ok) {
+        throw new Error(`Failed to delete project. Status: ${response.status}`);
+      }
 
-      setCustomMessage(`Project "${newProjectName}" saved successfully.`);
-      setNewProjectName(""); // Clear the project name input field
-      setShowTextarea(false); // Hide the textarea after saving the project
+      const updatedUserData = await fetchUserData();
+      setUserData(updatedUserData);
+
+      setCustomMessage(`Project deleted successfully.`);
     } catch (error) {
-      console.error("Error saving project:", error);
-      setCustomMessage("Error saving project. Please try again.");
+      console.error("Error deleting project:", error);
+      setCustomMessage("Error deleting project. Please try again.");
     }
   };
 
   return (
-    <div
-      style={{
-        fontFamily: "Cinzel, sans-serif",
-      }}
-    >
+    <div style={{ fontFamily: "Cinzel, sans-serif" }}>
       <Navbar2 />
       <div
         style={{
@@ -174,9 +196,7 @@ const HomepageLoggedIn = () => {
           )}
 
           <Timer
-            style={{
-              fontSize: "3em",
-            }}
+            style={{ fontSize: "3em" }}
             onTimerCompletion={handleTimerCompletion}
           />
         </div>
@@ -184,7 +204,6 @@ const HomepageLoggedIn = () => {
         <div style={{ marginTop: "20px" }}>
           <button onClick={handleViewProjects}>View Projects</button>
           <button onClick={handleAddProject}>Add Project</button>
-          {/* Move the textarea below the buttons */}
           {showTextarea && (
             <div style={{ marginTop: "20px" }}>
               <textarea
@@ -193,7 +212,7 @@ const HomepageLoggedIn = () => {
                 onChange={(e) => setNewProjectName(e.target.value)}
                 style={{ margin: "5px" }}
               />
-              <button></button>
+              <button onClick={saveOrUpdateProject}>Save</button>
             </div>
           )}
           <button>
@@ -222,7 +241,14 @@ const HomepageLoggedIn = () => {
                   <h3>User Projects</h3>
                   <ul>
                     {userData.projects.map((project) => (
-                      <li key={project._id}>{project.name}</li>
+                      <li key={project._id}>
+                        {project}
+                        <button
+                          onClick={() => handleDeleteProject(project._id)}
+                        >
+                          Delete Element
+                        </button>
+                      </li>
                     ))}
                   </ul>
                 </div>

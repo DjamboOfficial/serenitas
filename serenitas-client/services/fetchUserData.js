@@ -11,6 +11,7 @@ export const fetchUserData = async () => {
     });
 
     const data = await response.json();
+    console.log("Received user data:", data); // Add this line
     return data;
   } catch (error) {
     console.error("Error fetching user data: ", error);

@@ -1,18 +1,5 @@
 const mongoose = require("mongoose");
 
-const taskSchema = new mongoose.Schema({
-  // Define fields for the task model
-  // ...
-});
-
-const projectSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  tasks: [taskSchema], // Embed the task schema directly in the project schema
-  // Add more fields as needed for your project model
-});
-
-const Project = mongoose.model("Project", projectSchema);
-
 const userSchema = new mongoose.Schema({
   // Authentication Fields
   username: { type: String, required: true, unique: true },
@@ -25,7 +12,7 @@ const userSchema = new mongoose.Schema({
 
   // Task Management
   // tasks: [{ type: mongoose.Schema.Types.ObjectId, ref: "Task" }], // Remove this line
-  projects: [projectSchema], // Embed the project schema directly
+  projects: [], // Embed the project schema directly
 
   // Session Tracking
   sessions: [
