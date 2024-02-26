@@ -1,0 +1,77 @@
+.api-buttons {
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  justify-content: center;
+  gap: 2vh;
+  margin-bottom: 5vh;
+}
+
+.inspiration-container {
+  display: flex;
+  position: fixed;
+  float: right;
+  flex-direction: column;
+  margin-right: -85vh;
+  gap: 1em;
+  margin-bottom: -28vh;
+  animation: slideInMarcus 1s ease-in-out forwards;
+}
+
+.quote-textarea {
+  width: 60vh;
+  margin-right: 25vh;
+  height: 10vh;
+  font-size: 1em;
+  border-radius: 2em;
+  padding: 0.5vh 0.5vh 0vh 1vh; /* top right bottom left */
+
+  font-family: "Cinzel Decorative", sans-serif;
+}
+
+/* Pliny */
+
+.bored-container {
+  display: flex;
+  position: fixed;
+  float: left;
+  flex-direction: column;
+  margin-right: 85vh;
+  gap: 1em;
+  margin-bottom: -30vh;
+  animation: slideInPliny 1s ease-in-out forwards;
+}
+
+.bored-textarea {
+  width: 50vh;
+  height: 5em;
+  font-size: 1em;
+  border-radius: 2em;
+  padding: 0.5vh 0.5vh 0vh 1vh; /* top right bottom left */
+  font-family: "Cinzel Decorative", sans-serif;
+}
+
+.pliny-image,
+.marcus-aurelius-image {
+  width: 50vh;
+}
+
+/* Animations */
+
+@keyframes slideInPliny {
+  from {
+    transform: translateX(-150%);
+  }
+  to {
+    transform: translateX(0%);
+  }
+}
+
+@keyframes slideInMarcus {
+  from {
+    transform: translateX(150%);
+  }
+  to {
+    transform: translateX(0%);
+  }
+}

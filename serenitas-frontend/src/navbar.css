@@ -1,0 +1,11 @@
+/* navbar */
+
+.navbar {
+  font-family: "Cinzel Decorative", sans-serif;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  background-color: black;
+  color: white;
+  gap: 3vw;
+}
