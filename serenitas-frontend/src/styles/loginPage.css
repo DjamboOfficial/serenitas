@@ -1,0 +1,61 @@
+.login-page-container {
+  font-family: "Cinzel Decorative", sans-serif;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+  min-height: 100vh;
+  background-image: url("https://res.cloudinary.com/dgwvbd9ki/image/upload/v1707131139/serenitas/philosopher_ewswwi.png");
+  background-size: cover;
+  background-position: center;
+}
+
+input {
+  height: 5vh;
+  width: 20vw;
+  font-size: 3vh;
+  display: flex;
+  text-align: center;
+  border-radius: 2vh;
+}
+
+button {
+  font-family: "Cinzel Decorative", sans-serif;
+  height: 5vh;
+  width: 10vw;
+  font-size: 3vh;
+  border-radius: 2vh;
+  background-color: darkred;
+  color: white;
+  transition-duration: 1s;
+  cursor: pointer;
+}
+
+button:hover {
+  border-radius: 0;
+  background-color: transparent;
+  color: black;
+}
+
+.login-page-form-container {
+  background-color: antiquewhite;
+  border: 1vh solid darkred;
+  font-size: 3vh;
+  opacity: 0.7;
+  border-radius: 2vh;
+}
+
+.login-form {
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+  padding: 5vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4vh;
+}

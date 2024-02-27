@@ -1,21 +1,37 @@
 import { useState } from "react";
+import "../styles/navbar.css";
+import { useAuth } from "../contexts/authContext";
+import { AuthenticatedMenu } from "./AuthenticatedMenu";
 
-export const Navbar = () => {
+const Navbar = () => {
+  const { isLoggedIn } = useAuth(); // Using useAuth hook correctly
   return (
     <>
-      <nav className="navbar">
+      <div className="navbar-container">
         <img
-          className="serenitas-logo"
-          src="https://res.cloudinary.com/dgwvbd9ki/image/upload/v1708599342/portfolio/2-removebg-preview_swhv6r.png"
-          alt="serenitas-logo.png"
+          src="https://res.cloudinary.com/dgwvbd9ki/image/upload/v1708695526/portfolio/edo-logo_jdaxxe.png"
+          alt="edo-logo"
         />
-        <h1>serenitas</h1>
-        <img
-          className="serenitas-logo"
-          src="https://res.cloudinary.com/dgwvbd9ki/image/upload/v1708599342/portfolio/2-removebg-preview_swhv6r.png"
-          alt="serenitas-logo.png"
-        />
-      </nav>
+        <button id="serenitas-header-button">
+          <a href="/">
+            {" "}
+            <h1>serenitas</h1>
+          </a>
+        </button>
+
+        <nav className="navbar">
+          <button>
+            {" "}
+            <a href="/login">Log In</a>
+          </button>
+          <button>
+            <a href="/signup">Sign Up</a>
+          </button>
+        </nav>
+        {isLoggedIn && <p>i</p>}
+      </div>
     </>
   );
 };
+
+export default Navbar;

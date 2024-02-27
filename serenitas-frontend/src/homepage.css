@@ -4,6 +4,8 @@ body {
   margin: 0;
   padding: 0;
   overflow: hidden;
+  justify-content: center;
+  align-items: center;
 }
 
 .homepage {
@@ -17,7 +19,7 @@ body {
   height: 100%;
   width: 100%;
   min-height: 100vh;
-  background-image: url("https://res.cloudinary.com/dgwvbd9ki/image/upload/v1707131143/serenitas/colosseum_ovth9i.png");
+  background-image: url("https://res.cloudinary.com/dgwvbd9ki/image/upload/v1707131141/serenitas/senator_b07auj.png");
   background-size: cover;
   background-position: center;
 }
