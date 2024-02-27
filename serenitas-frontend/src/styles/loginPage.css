@@ -14,27 +14,6 @@
   background-position: center;
 }
 
-input {
-  height: 5vh;
-  width: 20vw;
-  font-size: 3vh;
-  display: flex;
-  text-align: center;
-  border-radius: 2vh;
-}
-
-button {
-  font-family: "Cinzel Decorative", sans-serif;
-  height: 5vh;
-  width: 10vw;
-  font-size: 3vh;
-  border-radius: 2vh;
-  background-color: darkred;
-  color: white;
-  transition-duration: 1s;
-  cursor: pointer;
-}
-
 button:hover {
   border-radius: 0;
   background-color: transparent;

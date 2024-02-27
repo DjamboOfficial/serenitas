@@ -9,25 +9,27 @@ const Navbar = () => {
     <>
       <div className="navbar-container">
         <img
+          className="edo-logo"
           src="https://res.cloudinary.com/dgwvbd9ki/image/upload/v1708695526/portfolio/edo-logo_jdaxxe.png"
           alt="edo-logo"
         />
-        <button id="serenitas-header-button">
-          <a href="/">
-            {" "}
-            <h1>serenitas</h1>
-          </a>
+
+        <button className="navbar-button">
+          {" "}
+          <a href="/login">Log In</a>
+        </button>
+        <div className="serenitas-header">
+          <img
+            className="serenitas-header-logo"
+            src="https://res.cloudinary.com/dgwvbd9ki/image/upload/v1708599342/portfolio/2-removebg-preview_swhv6r.png"
+            alt=""
+          />
+          <h3>serenitas</h3>
+        </div>
+        <button className="navbar-button">
+          <a href="/signup">Sign Up</a>
         </button>
 
-        <nav className="navbar">
-          <button>
-            {" "}
-            <a href="/login">Log In</a>
-          </button>
-          <button>
-            <a href="/signup">Sign Up</a>
-          </button>
-        </nav>
         {isLoggedIn && <p>i</p>}
       </div>
     </>
