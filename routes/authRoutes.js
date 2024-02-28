@@ -2,7 +2,6 @@ const express = require("express");
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-
 const router = express.Router();
 
 router.post("/signup", async (req, res) => {
@@ -41,9 +40,13 @@ router.post("/login", async (req, res) => {
     if (!isPasswordValid) {
       return res.status(401).json({ message: "Invalid username or password" });
     }
-
-    res.status(200).json({ message: "Login successful" });
-    console.log(username);
+    const userId = user._id;
+    const token = jwt.sign({ userId }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+    console.log("News from the backend: here's the token: ", token);
+    console.log("Here's the userId:", userId);
+    res.status(200).json({ message: "Login successful", userId, token }); // Send token in the response
   } catch (error) {
     console.error(error);
     res.status(501).json({ message: "Internal Server error or whatever" });

@@ -13,7 +13,7 @@ body {
   text-align: center;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: space-around;
   align-items: center;
   overflow: hidden;
   height: 100%;

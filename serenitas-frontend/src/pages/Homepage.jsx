@@ -22,6 +22,8 @@ function Homepage() {
     }, 3000);
     return () => clearTimeout(timeout);
   }, []);
+
+  console.log("Username: ", username);
   return (
     <>
       <Navbar />
@@ -30,10 +32,8 @@ function Homepage() {
           <div className="loading-progress"></div>
         </div>
       )}
-
       <div className={`homepage ${loading ? "loading" : ""}`}>
         {isLoggedIn && <h1 className="ax">Ciao, {username}</h1>}
-
         <Timer />
         <ToDoList />
         <ApiCalls />

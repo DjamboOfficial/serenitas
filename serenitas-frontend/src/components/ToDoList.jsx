@@ -1,24 +1,51 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export const ToDoList = () => {
   const [inputValue, setInputValue] = useState("");
   const [list, setList] = useState([]);
-  const [item, setItem] = useState([]);
+  const [token, setToken] = useState(""); // State to store the JWT token
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem("token");
+    console.log("Stored token:", storedToken); // Log the stored token
+    if (storedToken && storedToken.trim() !== "") {
+      setToken(storedToken); // Set token from localStorage if it exists and is not empty
+    }
+  }, []);
+
+  useEffect(() => {
+    if (token) {
+      fetchProjects();
+    }
+  }, [token]);
 
   const handleInputChange = (e) => setInputValue(e.target.value);
 
   const handleSubmit = (e) => {
-    e.preventDefault(); // Prevent default form submission behavior
+    e.preventDefault();
     if (inputValue.trim() !== "") {
-      setList([...list, inputValue]); // Append new item to the list
-      setInputValue(""); // Clear the input field after adding the item
+      setList([...list, inputValue]);
+      setInputValue("");
     }
   };
 
   const handleDelete = (index) => {
-    // Filter out the item with the specified index
     const updatedList = list.filter((_, i) => i !== index);
     setList(updatedList);
+  };
+
+  const fetchProjects = async () => {
+    try {
+      console.log("Token:", token); // Log the token before making the request
+      const response = await fetch("/projects", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      // Remaining code for handling response...
+    } catch (error) {
+      console.error("Error fetching projects:", error);
+    }
   };
 
   return (
@@ -31,7 +58,7 @@ export const ToDoList = () => {
             onChange={handleInputChange}
             placeholder="Your tasks..."
           />
-          <button type="submit">Add</button> {/* Add a submit button */}
+          <button type="submit">Add</button>
         </form>
         {list.length > 0 && (
           <table className="todo-list">

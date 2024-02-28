@@ -25,8 +25,8 @@
   color: white;
   border-radius: 5vh;
   font-size: 2vh;
-  height: 8vh;
-  width: 65vh;
+  height: 12vh;
+  width: 40vh;
   cursor: help;
   transition-duration: 1s;
   border: 1px solid darkred;
@@ -53,8 +53,8 @@
   border: 2em;
   border-radius: 5vh;
   font-size: 2vh;
-  height: 8vh;
-  width: 65vh;
+  height: 12vh;
+  width: 40vh;
   cursor: help;
   transition-duration: 1s;
   border: 1px solid darkblue;
@@ -82,4 +82,30 @@
   border-radius: 0%;
   color: black;
   border: 1px solid black;
+}
+
+.livy-button {
+  font-family: "Cinzel Decorative", sans-serif;
+  background-color: darkgreen;
+  color: white;
+  border-radius: 5vh;
+  font-size: 2vh;
+  height: 12vh;
+  width: 40vh;
+  cursor: help;
+  transition-duration: 1s;
+  border: 1px solid darkred;
+  transition-duration: 1s ease;
+}
+
+.livy-button:hover {
+  border-radius: 0%;
+  background-color: transparent;
+  color: white;
+  border: 1px solid white;
+  transition-duration: 1s ease;
+}
+
+a:visited {
+  text-decoration: none;
 }

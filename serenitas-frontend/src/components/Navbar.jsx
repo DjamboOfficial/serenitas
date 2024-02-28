@@ -2,9 +2,17 @@ import { useState } from "react";
 import "../styles/navbar.css";
 import { useAuth } from "../contexts/authContext";
 import { AuthenticatedMenu } from "./AuthenticatedMenu";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
-  const { isLoggedIn } = useAuth(); // Using useAuth hook correctly
+  const { isLoggedIn } = useAuth();
+  const navigate = useNavigate();
+  const handleLogOut = () => {
+    localStorage.removeItem("token");
+    navigate("/");
+    window.location.reload(); // Aggiorna la pagina
+  };
+
   return (
     <>
       <div className="navbar-container">
@@ -13,11 +21,6 @@ const Navbar = () => {
           src="https://res.cloudinary.com/dgwvbd9ki/image/upload/v1708695526/portfolio/edo-logo_jdaxxe.png"
           alt="edo-logo"
         />
-
-        <button className="navbar-button">
-          {" "}
-          <a href="/login">Log In</a>
-        </button>
         <div className="serenitas-header">
           <img
             className="serenitas-header-logo"
@@ -27,7 +30,15 @@ const Navbar = () => {
           <h3>serenitas</h3>
         </div>
         <button className="navbar-button">
+          {" "}
+          <a href="/login">Log In</a>
+        </button>
+
+        <button className="navbar-button">
           <a href="/signup">Sign Up</a>
+        </button>
+        <button className="navbar-button" onClick={handleLogOut}>
+          Log Out
         </button>
 
         {isLoggedIn && <p>i</p>}

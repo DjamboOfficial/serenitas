@@ -1,6 +1,6 @@
 .api-buttons {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-items: center;
   justify-content: center;
   gap: 2vh;
@@ -14,19 +14,19 @@
   flex-direction: column;
   margin-right: -85vh;
   gap: 1em;
-  margin-bottom: -28vh;
+  margin-bottom: -40vh;
   animation: slideInMarcus 1s ease-in-out forwards;
 }
 
 .quote-textarea {
-  width: 60vh;
   margin-right: 25vh;
-  height: 10vh;
-  font-size: 1em;
   border-radius: 2em;
-  padding: 0.5vh 0.5vh 0vh 1vh; /* top right bottom left */
-
   font-family: "Cinzel Decorative", sans-serif;
+  min-height: 10vh;
+  min-width: 23vw;
+  font-size: 1.5vh;
+  display: flex;
+  align-items: center;
 }
 
 /* Pliny */
@@ -38,21 +38,46 @@
   flex-direction: column;
   margin-right: 85vh;
   gap: 1em;
-  margin-bottom: -30vh;
+  margin-bottom: -40vh;
   animation: slideInPliny 1s ease-in-out forwards;
 }
 
 .bored-textarea {
-  width: 50vh;
-  height: 5em;
-  font-size: 1em;
   border-radius: 2em;
   padding: 0.5vh 0.5vh 0vh 1vh; /* top right bottom left */
   font-family: "Cinzel Decorative", sans-serif;
+  min-height: 10vh;
+  min-width: 23vw;
+  font-size: 1.5vh;
 }
 
+.history-container {
+  display: flex;
+  position: fixed;
+  float: left;
+  flex-direction: column;
+  margin-right: 0;
+  gap: 1em;
+  margin-bottom: -30vh;
+  animation: slideInLivy 1s ease-in-out forwards;
+}
+
+.history-textarea {
+  border-radius: 2em;
+  padding: 0.5vh 0.5vh 0vh 1vh; /* top right bottom left */
+  font-family: "Cinzel Decorative", sans-serif;
+  min-height: 10vh;
+  min-width: 23vw;
+  font-size: 1.5vh;
+}
+
+/* Livy */
+
+/* Images*/
+
 .pliny-image,
-.marcus-aurelius-image {
+.marcus-aurelius-image,
+.livy-image {
   width: 50vh;
   height: 50vh;
 }
@@ -71,6 +96,15 @@
 @keyframes slideInMarcus {
   from {
     transform: translateX(150%);
+  }
+  to {
+    transform: translateX(0%);
+  }
+}
+
+@keyframes slideInLivy {
+  from {
+    transform: translateY(150%);
   }
   to {
     transform: translateX(0%);

@@ -7,9 +7,8 @@ import axios from "axios";
 import Navbar from "../components/Navbar";
 
 function LoginPage() {
-  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { isLoggedIn, setIsLoggedIn } = useAuth();
+  const { isLoggedIn, setIsLoggedIn, username, setUsername } = useAuth();
 
   const navigate = useNavigate();
 
@@ -29,10 +28,11 @@ function LoginPage() {
         username,
         password,
       });
-      console.log(response.data);
-      const token = response.data.token;
-      localStorage.setItem("token: ", token);
+      const { token } = response.data;
+      localStorage.setItem("token", token);
       setIsLoggedIn(true);
+      console.log(username);
+      setUsername(username);
       navigate("/");
     } catch (error) {
       console.error("An error occurred:", error);

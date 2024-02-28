@@ -6,8 +6,7 @@ import Navbar from "../components/Navbar";
 import "../styles/signupPage.css";
 
 function SignupPage() {
-  const { isLoggedIn, setIsLoggedIn } = useAuth();
-  const [username, setUsername] = useState("");
+  const { isLoggedIn, setIsLoggedIn, username, setUsername } = useAuth();
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
@@ -39,10 +38,9 @@ function SignupPage() {
       });
       const token = response.data.token;
       console.log(token);
-      localStorage.setItem("Your token, Sir:", token);
+      localStorage.setItem("token", token);
       setIsLoggedIn(true); // Update authentication state
-      console.log("Sign up successful");
-      console.log(response.data);
+      setUsername(username);
       navigate("/");
     } catch (error) {
       console.error("Sign up failed: ", error.response.data.message);
