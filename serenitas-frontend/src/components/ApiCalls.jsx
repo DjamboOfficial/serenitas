@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { livyData } from "../data/livyData";
 
 export const ApiCalls = () => {
   const [quoteMarcus, setQuoteMarcus] = useState("");
@@ -56,21 +57,17 @@ export const ApiCalls = () => {
 
   const getQuoteLivy = async () => {
     try {
-      const response = await fetch("https://www.boredapi.com/api/activity");
-      const data = await response.json();
-      if (data.participants === 1 && data.price === 0) {
-        setQuoteLivy(`${data.activity}. I'm sure it's good use of your time!`);
-        setShowContentLivy(true);
-        setButtonLivyVisible(false);
+      const randomIndex = Math.floor(Math.random() * livyData.length);
+      const selectedQuote = livyData[randomIndex];
+      setQuoteLivy(selectedQuote);
+      setShowContentLivy(true);
+      setButtonLivyVisible(false);
+      setTimeout(() => {
+        setShowContentLivy(false);
         setTimeout(() => {
-          setShowContentLivy(false);
-          setTimeout(() => {
-            setButtonLivyVisible(true);
-          }, 1);
-        }, 12000);
-      } else {
-        console.log("Livy API returned unsuitable activity:", data);
-      }
+          setButtonLivyVisible(true);
+        }, 1);
+      }, 12000);
     } catch (error) {
       console.error("Error fetching Livy activity:", error);
     }
@@ -93,7 +90,10 @@ export const ApiCalls = () => {
         )}
         {buttonLivyVisible && (
           <button onClick={getQuoteLivy} className="livy-button">
-            Livy Button
+            How about a random <br />
+            Roman Empire fact?
+            <br />
+            Livy here has a bunch!
           </button>
         )}
       </div>

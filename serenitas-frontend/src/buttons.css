@@ -21,16 +21,15 @@
 .marcus-aurelius-button {
   background-color: white;
   font-family: "Cinzel Decorative", sans-serif;
-  background-color: darkred;
+  background-color: rgb(99, 0, 0);
+  border: 5px solid gold;
   color: white;
   border-radius: 5vh;
   font-size: 2vh;
   height: 12vh;
   width: 40vh;
-  cursor: help;
+  cursor: pointer;
   transition-duration: 1s;
-  border: 1px solid darkred;
-  transition-duration: 1s ease;
 }
 
 .marcus-aurelius-button:hover {
@@ -42,22 +41,17 @@
 }
 
 .pliny-button {
-  background-color: darkblue;
-  gap: 1em;
-  cursor: help;
-  transition: transform 1s ease;
-
-  font-size: 1.2em;
+  background-color: white;
   font-family: "Cinzel Decorative", sans-serif;
+  background-color: rgb(99, 0, 0);
+  border: 5px solid gold;
   color: white;
-  border: 2em;
   border-radius: 5vh;
   font-size: 2vh;
   height: 12vh;
   width: 40vh;
   cursor: help;
   transition-duration: 1s;
-  border: 1px solid darkblue;
 }
 
 .pliny-button:hover {
@@ -69,8 +63,10 @@
 
 .todo-item button {
   background-color: #ff6666;
+  font-family: "Cinzel Decorative", sans-serif;
   color: white;
   border: none;
+  font-size: 2vh;
   border-radius: 1em;
   padding: 5px 10px;
   transition-duration: 1s;
@@ -85,17 +81,17 @@
 }
 
 .livy-button {
+  background-color: white;
   font-family: "Cinzel Decorative", sans-serif;
-  background-color: darkgreen;
+  background-color: rgb(99, 0, 0);
+  border: 5px solid gold;
   color: white;
   border-radius: 5vh;
   font-size: 2vh;
   height: 12vh;
   width: 40vh;
-  cursor: help;
+  cursor: pointer;
   transition-duration: 1s;
-  border: 1px solid darkred;
-  transition-duration: 1s ease;
 }
 
 .livy-button:hover {

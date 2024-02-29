@@ -38,3 +38,10 @@ button:hover {
   align-items: center;
   gap: 4vh;
 }
+
+.login-form input {
+  height: 3vh;
+  width: 10vw;
+  border-radius: 2vh;
+  font-size: 2vh;
+}

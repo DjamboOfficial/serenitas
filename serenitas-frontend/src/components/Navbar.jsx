@@ -29,14 +29,24 @@ const Navbar = () => {
           />
           <h3>serenitas</h3>
         </div>
-        <button className="navbar-button">
-          {" "}
-          <a href="/login">Log In</a>
+        <button
+          className="navbar-button"
+          onClick={() => {
+            window.location.href = "/login";
+          }}
+        >
+          Log In
         </button>
 
-        <button className="navbar-button">
-          <a href="/signup">Sign Up</a>
+        <button
+          className="navbar-button"
+          onClick={() => {
+            window.location.href = "/signup";
+          }}
+        >
+          Sign Up
         </button>
+
         <button className="navbar-button" onClick={handleLogOut}>
           Log Out
         </button>

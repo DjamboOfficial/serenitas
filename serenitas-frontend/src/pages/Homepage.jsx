@@ -23,7 +23,6 @@ function Homepage() {
     return () => clearTimeout(timeout);
   }, []);
 
-  console.log("Username: ", username);
   return (
     <>
       <Navbar />
@@ -33,7 +32,12 @@ function Homepage() {
         </div>
       )}
       <div className={`homepage ${loading ? "loading" : ""}`}>
-        {isLoggedIn && <h1 className="ax">Ciao, {username}</h1>}
+        {isLoggedIn && (
+          <div className="homepage-salute-container">
+            <h1 className="homepage-salute">Ave, {username}</h1>
+          </div>
+        )}
+
         <Timer />
         <ToDoList />
         <ApiCalls />

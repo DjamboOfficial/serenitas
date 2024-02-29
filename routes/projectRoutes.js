@@ -5,13 +5,16 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
 const verifyToken = (req, res, next) => {
-  const token = req.headers.authorization;
+  const authHeader = req.headers["authorization"];
 
-  if (!token) {
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return res
       .status(401)
       .json({ error: "Unauthorized: No token is provided" });
   }
+
+  const token = authHeader.split(" ")[1];
+  console.log(token);
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -24,7 +27,7 @@ const verifyToken = (req, res, next) => {
 };
 
 // Define a route to fetch projects
-router.get("/", verifyToken, async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const { userId } = req.user;
 

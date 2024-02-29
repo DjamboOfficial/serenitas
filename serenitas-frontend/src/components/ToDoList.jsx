@@ -2,22 +2,9 @@ import { useState, useEffect } from "react";
 
 export const ToDoList = () => {
   const [inputValue, setInputValue] = useState("");
+  const [projects, setProjects] = useState([]);
   const [list, setList] = useState([]);
   const [token, setToken] = useState(""); // State to store the JWT token
-
-  useEffect(() => {
-    const storedToken = localStorage.getItem("token");
-    console.log("Stored token:", storedToken); // Log the stored token
-    if (storedToken && storedToken.trim() !== "") {
-      setToken(storedToken); // Set token from localStorage if it exists and is not empty
-    }
-  }, []);
-
-  useEffect(() => {
-    if (token) {
-      fetchProjects();
-    }
-  }, [token]);
 
   const handleInputChange = (e) => setInputValue(e.target.value);
 
@@ -34,24 +21,10 @@ export const ToDoList = () => {
     setList(updatedList);
   };
 
-  const fetchProjects = async () => {
-    try {
-      console.log("Token:", token); // Log the token before making the request
-      const response = await fetch("/projects", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      // Remaining code for handling response...
-    } catch (error) {
-      console.error("Error fetching projects:", error);
-    }
-  };
-
   return (
     <>
       <div className="todo-list-container">
-        <form onSubmit={handleSubmit}>
+        <form className="todo-form" onSubmit={handleSubmit}>
           <input
             type="text"
             value={inputValue}
