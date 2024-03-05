@@ -1,26 +1,15 @@
 const mongoose = require("mongoose");
 
+const projectSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  status: { type: String, required: true },
+});
+
 const userSchema = new mongoose.Schema({
-  username: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  projects: [
-    {
-      name: String,
-      status: String, // Define the status type as needed, e.g., 'active', 'inactive', 'completed', etc.
-    },
-  ],
+  username: { type: String, required: true },
+  password: { type: String, required: true },
+  email: { type: String, required: true },
+  projects: [projectSchema],
 });
 
 const User = mongoose.model("User", userSchema);

@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
+import { useAuth } from "../contexts/authContext";
 import axios from "axios";
 
 export const ToDoList = () => {
   const [inputValue, setInputValue] = useState("");
   const [list, setList] = useState([]);
-  const [token, setToken] = useState(""); // State to store the JWT token
-  const [projects, setProjects] = useState(null);
+  const { isLoggedIn, projects, setProjects } = useAuth();
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -19,17 +19,19 @@ export const ToDoList = () => {
         // Extract projects from the response data
         const { projects } = response.data;
         setProjects(projects);
+        console.log(projects);
       } catch (error) {
         console.error("Error fetching projects:", error);
       }
     };
-
-    fetchProjects();
-  }, []);
+    if (isLoggedIn) {
+      fetchProjects();
+    }
+  }, [isLoggedIn, setProjects]);
 
   const handleInputChange = (e) => setInputValue(e.target.value);
 
-  const handleSubmit = (e) => {
+  /* const handleSubmit = (e) => {
     e.preventDefault();
     if (inputValue.trim() !== "") {
       setList([...list, inputValue]);
@@ -41,11 +43,11 @@ export const ToDoList = () => {
     const updatedList = list.filter((_, i) => i !== index);
     setList(updatedList);
   };
-
+*/
   return (
     <>
       <div className="todo-list-container">
-        <form className="todo-form" onSubmit={handleSubmit}>
+        <form className="todo-form">
           <input
             type="text"
             value={inputValue}
@@ -54,18 +56,40 @@ export const ToDoList = () => {
           />
           <button type="submit">Add</button>
         </form>
-        {list.length > 0 && (
+        {isLoggedIn && projects.length > 0 && (
           <table className="todo-list">
             <thead>
               <tr>
-                <th>Todo</th>
-                <th>Item</th>
+                <th>Name</th>
+                <th>Status</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
-              {list.map((item, index) => (
+              {projects.map((project, index) => (
                 <tr className="todo-item" key={index}>
-                  <td>{item}</td>
+                  <td>{project.name}</td>
+                  <td>{project.status}</td>
+                  <td>
+                    <button onClick={() => handleDelete(index)}>Delete</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+        {!isLoggedIn && (
+          <table className="todo-list">
+            <thead>
+              <tr>
+                <th>Your Tasks</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {list.map((task, index) => (
+                <tr className="todo-item" key={index}>
+                  <td>{task}</td>
                   <td>
                     <button onClick={() => handleDelete(index)}>Delete</button>
                   </td>

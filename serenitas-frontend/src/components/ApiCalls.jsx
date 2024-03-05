@@ -49,6 +49,7 @@ export const ApiCalls = () => {
         }, 12000);
       } else {
         console.log("Pliny API returned unsuitable activity:", data);
+        getQuotePliny();
       }
     } catch (error) {
       console.error("Error fetching Pliny activity:", error);
