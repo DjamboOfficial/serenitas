@@ -32,4 +32,31 @@ router.put("/:id/projects", async (req, res) => {
   }
 });
 
+router.put("/:projectId", verifyToken, async (req, res) => {
+  try {
+    const projectId = req.params.projectId;
+    console.log("Received projectId:", projectId);
+
+    const newStatus = req.body.status;
+
+    // Find the project by ID and update its status
+    const updatedProject = await Project.findByIdAndUpdate(
+      projectId,
+      { status: newStatus },
+      { new: true } // Return the updated project after the update operation
+    );
+
+    if (!updatedProject) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+
+    res
+      .status(200)
+      .json({ message: "Project status updated successfully", updatedProject });
+  } catch (error) {
+    console.error("Error updating project status:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 module.exports = router;

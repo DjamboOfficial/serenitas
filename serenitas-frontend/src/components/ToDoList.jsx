@@ -29,6 +29,20 @@ export const ToDoList = () => {
     }
   }, [isLoggedIn, setProjects]);
 
+  // Inside your component
+
+  const handleSave = async (projectId, newStatus) => {
+    try {
+      // Send a PUT request to update the project's status
+      await axios.put(`http://localhost:3000/projects/${projectId}`, {
+        status: newStatus,
+      });
+      console.log("Project updated successfully");
+    } catch (error) {
+      console.error("Error updating project:", error);
+    }
+  };
+
   const handleInputChange = (e) => setInputValue(e.target.value);
 
   /* const handleSubmit = (e) => {
@@ -44,6 +58,7 @@ export const ToDoList = () => {
     setList(updatedList);
   };
 */
+
   return (
     <>
       <div className="todo-list-container">
@@ -69,8 +84,9 @@ export const ToDoList = () => {
               {projects.map((project, index) => (
                 <tr className="todo-item" key={index}>
                   <td>{project.name}</td>
-                  <td>{project.status}</td>
+                  <td contentEditable>{project.status}</td>
                   <td>
+                    <button onClick={handleSave}>Save</button>
                     <button onClick={() => handleDelete(index)}>Delete</button>
                   </td>
                 </tr>
