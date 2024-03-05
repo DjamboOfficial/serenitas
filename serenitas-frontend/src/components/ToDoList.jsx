@@ -10,12 +10,15 @@ export const ToDoList = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/projects", {
-          // Add headers containing the JWT token for authentication
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
+        const response = await axios.get(
+          "http://localhost:3000/user/projects",
+          {
+            // Add headers containing the JWT token for authentication
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
         // Extract projects from the response data
         const { projects } = response.data;
         setProjects(projects);
