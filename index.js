@@ -9,13 +9,11 @@ const PORT = process.env.PORT || 3000;
 const cors = require("cors");
 connectToDatabase();
 const authRoutes = require("./routes/authRoutes");
-const projectRoutes = require("./routes/projectRoutes");
 
 app.use(cors());
 app.use(bodyParser.json());
 
 app.use("/auth", authRoutes);
-app.use("/projects", projectRoutes);
 
 app.get("/", (req, res) => {
   res.send("Welcome to the serenitas backend");

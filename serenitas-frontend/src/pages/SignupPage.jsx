@@ -6,9 +6,17 @@ import Navbar from "../components/Navbar";
 import "../styles/signupPage.css";
 
 function SignupPage() {
-  const { isLoggedIn, setIsLoggedIn, username, setUsername } = useAuth();
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
+  const {
+    isLoggedIn,
+    setIsLoggedIn,
+    username,
+    setUsername,
+    email,
+    setEmail,
+    password,
+    setPassword,
+  } = useAuth();
+
   const navigate = useNavigate();
 
   const handleUsernameChange = (e) => {

@@ -59,7 +59,7 @@ export const ApiCalls = () => {
     try {
       const randomIndex = Math.floor(Math.random() * livyData.length);
       const selectedQuote = livyData[randomIndex];
-      setQuoteLivy(selectedQuote);
+      setQuoteLivy(`${selectedQuote} Did you know that?`);
       setShowContentLivy(true);
       setButtonLivyVisible(false);
       setTimeout(() => {

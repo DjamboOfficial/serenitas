@@ -1,10 +1,31 @@
 import { useState, useEffect } from "react";
+import axios from "axios";
 
 export const ToDoList = () => {
   const [inputValue, setInputValue] = useState("");
-  const [projects, setProjects] = useState([]);
   const [list, setList] = useState([]);
   const [token, setToken] = useState(""); // State to store the JWT token
+  const [projects, setProjects] = useState(null);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/projects", {
+          // Add headers containing the JWT token for authentication
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+        // Extract projects from the response data
+        const { projects } = response.data;
+        setProjects(projects);
+      } catch (error) {
+        console.error("Error fetching projects:", error);
+      }
+    };
+
+    fetchProjects();
+  }, []);
 
   const handleInputChange = (e) => setInputValue(e.target.value);
 
