@@ -32,31 +32,41 @@ router.put("/:id/projects", async (req, res) => {
   }
 });
 
-router.put("/:projectId", verifyToken, async (req, res) => {
+router.put("/:userId/projects/:projectId", verifyToken, async (req, res) => {
   try {
+    const userId = req.params.userId;
     const projectId = req.params.projectId;
+    console.log("Received userId:", userId);
     console.log("Received projectId:", projectId);
 
     const newStatus = req.body.status;
 
-    // Find the project by ID and update its status
-    const updatedProject = await Project.findByIdAndUpdate(
-      projectId,
-      { status: newStatus },
-      { new: true } // Return the updated project after the update operation
-    );
+    // Find the user by ID
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
 
-    if (!updatedProject) {
+    // Find the project within the user's projects array and update its status
+    const projectIndex = user.projects.findIndex(
+      (project) => project._id === projectId
+    );
+    if (projectIndex === -1) {
       return res.status(404).json({ message: "Project not found" });
     }
 
-    res
-      .status(200)
-      .json({ message: "Project status updated successfully", updatedProject });
+    user.projects[projectIndex].status = newStatus;
+
+    // Save the updated user document
+    await user.save();
+
+    res.status(200).json({
+      message: "Project status updated successfully",
+      updatedProject: user.projects[projectIndex],
+    });
   } catch (error) {
     console.error("Error updating project status:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 });
-
 module.exports = router;

@@ -33,11 +33,10 @@ export const ToDoList = () => {
 
   const handleSave = async (projectId, newStatus) => {
     try {
-      // Send a PUT request to update the project's status
-      await axios.put(`http://localhost:3000/projects/${projectId}`, {
-        status: newStatus,
-      });
-      console.log("Project updated successfully");
+      const response = await axios.get("http://localhost:3000/:id/projects"); // Assuming you have a function to get the user's ID
+      const projectData = { name: projectId, status: newStatus };
+      const result = await updateProject(userId, projectData);
+      console.log("Project updated successfully", result);
     } catch (error) {
       console.error("Error updating project:", error);
     }
