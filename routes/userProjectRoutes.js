@@ -7,7 +7,11 @@ const User = require("../models/User");
 router.get("/", verifyToken, async (req, res) => {
   try {
     const user = req.user;
-    res.json({ message: "Protected route accessed", projects: user.projects });
+    res.json({
+      message: "Protected route accessed",
+      projects: user.projects,
+      userId: user._id,
+    });
   } catch (error) {
     console.error("Error fetching user projects:", error);
     res.status(500).json({ message: "Internal server error" });
@@ -80,7 +84,6 @@ router.put("/:userId/projects/:projectName", async (req, res) => {
   }
 });
 
-// DELETE route to delete a project within user's projects
 router.delete("/:userId/projects/:projectId", async (req, res) => {
   try {
     const userId = req.params.userId;

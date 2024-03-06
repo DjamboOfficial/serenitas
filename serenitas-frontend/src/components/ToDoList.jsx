@@ -5,47 +5,50 @@ import axios from "axios";
 export const ToDoList = () => {
   const [inputValue, setInputValue] = useState("");
   const [list, setList] = useState([]);
-  const { isLoggedIn, projects, setProjects } = useAuth();
+  const { isLoggedIn, projects, setProjects, userId, setUserId } = useAuth();
 
   useEffect(() => {
-    const fetchProjects = async () => {
+    const fetchData = async () => {
       try {
+        // Fetch user's projects
         const response = await axios.get(
           "http://localhost:3000/user/projects",
           {
-            // Add headers containing the JWT token for authentication
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
           }
         );
-        // Extract projects from the response data
-        const { projects } = response.data;
-        setProjects(projects);
-        console.log(projects);
+        const userId = response.data._id; // Convert ObjectID to string
+        const userProjects = response.data.projects; // Extract projects from the response
+        console.log(response.data);
+        setUserId(userId); // Update userId state with the fetched value
+        setProjects(userProjects); // Update projects state with the fetched value
       } catch (error) {
         console.error("Error fetching projects:", error);
       }
     };
+
     if (isLoggedIn) {
-      fetchProjects();
+      fetchData();
     }
-  }, [isLoggedIn, setProjects]);
-
-  // Inside your component
-
-  const handleSave = async (projectId, newStatus) => {
-    try {
-      const response = await axios.get("http://localhost:3000/:id/projects"); // Assuming you have a function to get the user's ID
-      const projectData = { name: projectId, status: newStatus };
-      const result = await updateProject(userId, projectData);
-      console.log("Project updated successfully", result);
-    } catch (error) {
-      console.error("Error updating project:", error);
-    }
-  };
+  }, [isLoggedIn, setProjects, setUserId]);
 
   const handleInputChange = (e) => setInputValue(e.target.value);
+
+  const handleDelete = async (projectName) => {
+    try {
+      // Send DELETE request to delete the project
+      await axios.delete(
+        `http://localhost:3000/user/projects/65e7362c7fc066db469d5c77/projects/New`
+      );
+      // Update projects state after deletion
+      setProjects(projects.filter((project) => project.name !== projectName));
+      console.log("Project deleted successfully");
+    } catch (error) {
+      console.error("Error deleting project:", error);
+    }
+  };
 
   /* const handleSubmit = (e) => {
     e.preventDefault();
@@ -86,9 +89,15 @@ export const ToDoList = () => {
               {projects.map((project, index) => (
                 <tr className="todo-item" key={index}>
                   <td>{project.name}</td>
-                  <td contentEditable>{project.status}</td>
+                  <td>{project.status}</td>
                   <td>
-                    <button onClick={handleSave}>Save</button>
+                    <button
+                      onClick={() =>
+                        handleSave(project._id, newStatus || project.status)
+                      }
+                    >
+                      Save
+                    </button>
                     <button onClick={() => handleDelete(index)}>Delete</button>
                   </td>
                 </tr>

@@ -9,6 +9,8 @@ export const AuthProvider = ({ children }) => {
   const [username, setUsername] = useState("");
   const [projects, setProjects] = useState("");
   const [status, setStatus] = useState("");
+  const [userId, setUserId] = useState("");
+  const [projectName, setProjectName] = useState("");
 
   return (
     <AuthContext.Provider
@@ -25,6 +27,9 @@ export const AuthProvider = ({ children }) => {
         setProjects,
         status,
         setStatus,
+        userId,
+        setUserId,
+        projectName,
       }}
     >
       {children}

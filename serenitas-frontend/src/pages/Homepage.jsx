@@ -14,7 +14,7 @@ import { ToDoList } from "../components/ToDoList";
 
 function Homepage() {
   const [loading, setLoading] = useState(true);
-  const { isLoggedIn, username } = useAuth();
+  const { isLoggedIn, username, userId, projectName } = useAuth();
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -39,7 +39,7 @@ function Homepage() {
         )}
 
         <Timer />
-        <ToDoList />
+        <ToDoList userId={userId} projectName={projectName} />
         <ApiCalls />
       </div>
     </>
