@@ -10,18 +10,12 @@ import { ApiCalls } from "../components/ApiCalls";
 
 import { Timer } from "../components/Timer";
 import Navbar from "../components/Navbar";
-import { ToDoList } from "../components/ToDoList";
+import UnathenticatedToDoList from "../components/UnauthenticatedToDoList";
+import AuthenticatedToDoList from "../components/AuthenticatedToDoList";
 
 function Homepage() {
   const [loading, setLoading] = useState(true);
   const { isLoggedIn, username, userId, projectName } = useAuth();
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setLoading(false);
-    }, 3000);
-    return () => clearTimeout(timeout);
-  }, []);
 
   return (
     <>
@@ -37,9 +31,12 @@ function Homepage() {
             <h1 className="homepage-salute">Ave, {username}</h1>
           </div>
         )}
-
         <Timer />
-        <ToDoList userId={userId} projectName={projectName} />
+        {isLoggedIn ? (
+          <AuthenticatedToDoList />
+        ) : (
+          <UnathenticatedToDoList />
+        )}{" "}
         <ApiCalls />
       </div>
     </>

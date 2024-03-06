@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../contexts/authContext";
 import axios from "axios";
 
-export const ToDoList = () => {
+const AuthenticatedToDoList = () => {
   const [inputValue, setInputValue] = useState("");
   const [list, setList] = useState([]);
   const { isLoggedIn, projects, setProjects, userId, setUserId } = useAuth();
@@ -40,7 +40,7 @@ export const ToDoList = () => {
     try {
       // Send DELETE request to delete the project
       await axios.delete(
-        `http://localhost:3000/user/projects/65e7362c7fc066db469d5c77/projects/New`
+        `http://localhost:3000/user/projects/${userId}/projects/${projectName}`
       );
       // Update projects state after deletion
       setProjects(projects.filter((project) => project.name !== projectName));
@@ -50,19 +50,21 @@ export const ToDoList = () => {
     }
   };
 
-  /* const handleSubmit = (e) => {
-    e.preventDefault();
-    if (inputValue.trim() !== "") {
-      setList([...list, inputValue]);
-      setInputValue("");
+  const handleAddProject = async () => {
+    try {
+      // Send POST request to add a new project
+      const response = await axios.post(
+        `http://localhost:3000/user/projects/${userId}`,
+        { name: inputValue, status: "Pending" }
+      );
+      // Update projects state after addition
+      setProjects([...projects, response.data.project]);
+      setInputValue(""); // Clear input field after adding project
+      console.log("Project added successfully");
+    } catch (error) {
+      console.error("Error adding project:", error);
     }
   };
-
-  const handleDelete = (index) => {
-    const updatedList = list.filter((_, i) => i !== index);
-    setList(updatedList);
-  };
-*/
 
   return (
     <>
@@ -74,7 +76,9 @@ export const ToDoList = () => {
             onChange={handleInputChange}
             placeholder="Your tasks..."
           />
-          <button type="submit">Add</button>
+          <button type="button" onClick={handleAddProject}>
+            Add
+          </button>
         </form>
         {isLoggedIn && projects.length > 0 && (
           <table className="todo-list">
@@ -98,27 +102,9 @@ export const ToDoList = () => {
                     >
                       Save
                     </button>
-                    <button onClick={() => handleDelete(index)}>Delete</button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-        {!isLoggedIn && (
-          <table className="todo-list">
-            <thead>
-              <tr>
-                <th>Your Tasks</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {list.map((task, index) => (
-                <tr className="todo-item" key={index}>
-                  <td>{task}</td>
-                  <td>
-                    <button onClick={() => handleDelete(index)}>Delete</button>
+                    <button onClick={() => handleDelete(project.name)}>
+                      Delete
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -129,3 +115,5 @@ export const ToDoList = () => {
     </>
   );
 };
+
+export default AuthenticatedToDoList;
