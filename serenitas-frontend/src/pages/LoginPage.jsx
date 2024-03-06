@@ -7,16 +7,9 @@ import axios from "axios";
 import Navbar from "../components/Navbar";
 
 function LoginPage() {
-  const {
-    isLoggedIn,
-    setIsLoggedIn,
-    username,
-    setUsername,
-    email,
-    setEmail,
-    password,
-    setPassword,
-  } = useAuth();
+  const { isLoggedIn, setIsLoggedIn } = useAuth();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
 

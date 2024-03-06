@@ -2,108 +2,97 @@ const express = require("express");
 const router = express.Router();
 const { verifyToken } = require("../authMiddleware");
 const User = require("../models/User");
+const mongoose = require("mongoose");
 
 // GET route to fetch user's projects
-router.get("/", verifyToken, async (req, res) => {
+router.get("/projects", verifyToken, async (req, res) => {
   try {
-    const user = req.user;
-    res.json({
-      message: "Protected route accessed",
-      projects: user.projects,
-      userId: user._id,
-    });
+    const { user } = req;
+    const { projects } = await User.findById(user._id, "projects");
+    res.json({ message: "You're now in the Netherrealm", projects });
   } catch (error) {
-    console.error("Error fetching user projects:", error);
+    console.error("Error fetching projects:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 });
 
-// PUT route to add a new project to user's projects
-router.put("/:id/projects", async (req, res) => {
+router.post("/projects/new", verifyToken, async (req, res) => {
   try {
-    const userId = req.params.id;
-    const projectData = req.body; // Assuming project data is sent in the request body
+    const { user } = req;
+    const { name, status } = req.body;
 
-    // Find the user by ID
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    // Add the new project to the user's projects array
-    user.projects.push(projectData);
-
-    // Save the updated user document
+    // Create a new project
+    const newProject = { name, status };
+    user.projects.push(newProject);
     await user.save();
 
-    res.status(200).json({ message: "Project added successfully", user });
+    res.json({
+      message: "Project created successfully",
+      project: newProject,
+    });
   } catch (error) {
-    console.error("Error adding project:", error);
+    console.error("Error creating project:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 });
 
-router.put("/:userId/projects/:projectName", async (req, res) => {
+router.put("/projects/update/:projectId", verifyToken, async (req, res) => {
   try {
-    const userId = req.params.userId;
-    const projectName = req.params.projectName;
-    const projectData = req.body; // New project data to update
+    const { user } = req;
+    const projectId = new mongoose.Types.ObjectId(req.params.projectId);
+    const { name, status } = req.body;
 
-    console.log("User ID:", userId);
-    console.log("Project Name:", projectName);
-    console.log("Project Data:", projectData);
-
-    // Find the user by ID
-    const user = await User.findById(userId);
-    if (!user) {
-      console.log("User not found");
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    // Find the project by name
-    const project = user.projects.find(
-      (project) => project.name === projectName
+    // Update the project details
+    const updatedUser = await User.findOneAndUpdate(
+      { _id: user._id, "projects._id": projectId },
+      { $set: { "projects.$.name": name, "projects.$.status": status } },
+      { new: true }
     );
-    if (!project) {
+
+    if (!updatedUser) {
       console.log("Project not found");
       return res.status(404).json({ message: "Project not found" });
     }
 
-    // Update the project
-    Object.assign(project, projectData);
-
-    // Save the updated user document
-    await user.save();
-
-    console.log("Project updated successfully");
-
-    res.status(200).json({ message: "Project updated successfully", project });
+    res.json({
+      message: "Project updated successfully",
+      project: updatedUser.projects.find((project) =>
+        project._id.equals(projectId)
+      ),
+    });
   } catch (error) {
     console.error("Error updating project:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 });
 
-router.delete("/:userId/projects/:projectId", async (req, res) => {
+router.delete("/project/:projectId", verifyToken, async (req, res) => {
   try {
-    const userId = req.params.userId;
+    const { user } = req;
     const projectId = req.params.projectId;
 
-    // Find the user by ID
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
+    console.log("Received project ID for deletion:", projectId);
+    console.log("Received user:", user);
 
-    // Filter out the project to be deleted
-    user.projects = user.projects.filter(
-      (project) => project._id !== projectId
+    // Find the index of the project to delete
+    const projectIndex = user.projects.findIndex(
+      (project) => project._id.toString() === projectId
     );
 
-    // Save the updated user document
+    // If project not found, return 404
+    if (projectIndex === -1) {
+      console.log("Project not found");
+      return res.status(404).json({ message: "Project not found" });
+    }
+
+    // Remove the project from the user's projects array
+    user.projects.splice(projectIndex, 1);
     await user.save();
 
-    res.status(200).json({ message: "Project deleted successfully", user });
+    res.json({
+      message: "Project deleted successfully",
+      projects: user.projects,
+    });
   } catch (error) {
     console.error("Error deleting project:", error);
     res.status(500).json({ message: "Internal server error" });

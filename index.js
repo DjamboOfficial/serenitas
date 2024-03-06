@@ -15,7 +15,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use("/auth", authRoutes);
-app.use("/user/projects", userProjectRoutes);
+app.use("/protected", userProjectRoutes);
 
 app.get("/", (req, res) => {
   res.send("Welcome to the serenitas backend");

@@ -1,117 +1,197 @@
-import { useState, useEffect } from "react";
-import { useAuth } from "../contexts/authContext";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const AuthenticatedToDoList = () => {
-  const [inputValue, setInputValue] = useState("");
-  const [list, setList] = useState([]);
-  const { isLoggedIn, projects, setProjects, userId, setUserId } = useAuth();
+  const [projects, setProjects] = useState([]);
+  const [newProjectName, setNewProjectName] = useState("");
+  const [newProjectStatus, setNewProjectStatus] = useState("");
+  const [editingProjectId, setEditingProjectId] = useState(null);
+  const [editProjectName, setEditProjectName] = useState("");
+  const [editProjectStatus, setEditProjectStatus] = useState("");
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Fetch user's projects
-        const response = await axios.get(
-          "http://localhost:3000/user/projects",
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
-        const userId = response.data._id; // Convert ObjectID to string
-        const userProjects = response.data.projects; // Extract projects from the response
-        console.log(response.data);
-        setUserId(userId); // Update userId state with the fetched value
-        setProjects(userProjects); // Update projects state with the fetched value
-      } catch (error) {
-        console.error("Error fetching projects:", error);
-      }
-    };
+    fetchProjects();
+  }, []);
 
-    if (isLoggedIn) {
-      fetchData();
-    }
-  }, [isLoggedIn, setProjects, setUserId]);
-
-  const handleInputChange = (e) => setInputValue(e.target.value);
-
-  const handleDelete = async (projectName) => {
+  const fetchProjects = async () => {
     try {
-      // Send DELETE request to delete the project
-      await axios.delete(
-        `http://localhost:3000/user/projects/${userId}/projects/${projectName}`
+      const response = await axios.get(
+        "http://localhost:3000/protected/projects",
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
       );
-      // Update projects state after deletion
-      setProjects(projects.filter((project) => project.name !== projectName));
-      console.log("Project deleted successfully");
+      const { projects } = response.data;
+      setProjects(projects);
     } catch (error) {
-      console.error("Error deleting project:", error);
+      console.error("Error fetching projects:", error);
+      setError("Failed to fetch projects. Please try again later.");
     }
   };
 
   const handleAddProject = async () => {
+    if (!newProjectName || !newProjectStatus) {
+      setError("Project name and status are required.");
+      return;
+    }
+
     try {
-      // Send POST request to add a new project
       const response = await axios.post(
-        `http://localhost:3000/user/projects/${userId}`,
-        { name: inputValue, status: "Pending" }
+        "http://localhost:3000/protected/projects/new",
+        {
+          name: newProjectName,
+          status: newProjectStatus,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
       );
-      // Update projects state after addition
-      setProjects([...projects, response.data.project]);
-      setInputValue(""); // Clear input field after adding project
-      console.log("Project added successfully");
+      const { message, projects } = response.data;
+      console.log(message);
+      console.log("Updated projects:", projects);
+      setNewProjectName("");
+      setNewProjectStatus("");
+      setProjects(projects);
     } catch (error) {
       console.error("Error adding project:", error);
+      setError("Failed to add project. Please try again later.");
     }
+  };
+
+  const handleInputChange = (e) => setNewProjectName(e.target.value);
+
+  const handleDeleteProject = async (projectId) => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:3000/protected/project/${projectId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      const { message, projects } = response.data;
+      console.log(message);
+      setProjects(projects); // Update the projects state after deletion
+    } catch (error) {
+      console.error("Error deleting project:", error);
+      setError("Failed to delete project. Please try again later.");
+    }
+  };
+
+  const handleEditClick = (projectId, name, status) => {
+    setEditingProjectId(projectId);
+    setEditProjectName(name);
+    setEditProjectStatus(status);
+  };
+
+  const handleEditProject = async (projectId) => {
+    try {
+      const response = await axios.put(
+        `http://localhost:3000/protected/projects/update/${projectId}`,
+        {
+          name: editProjectName,
+          status: editProjectStatus,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      const { message, project: updatedProject } = response.data;
+      console.log(message);
+      // Update the projects list to reflect the changes
+      setProjects((prevProjects) =>
+        prevProjects.map((project) =>
+          project._id === updatedProject._id ? updatedProject : project
+        )
+      );
+      // Reset editing state
+      setEditingProjectId(null);
+      setEditProjectName("");
+      setEditProjectStatus("");
+    } catch (error) {
+      console.error("Error editing project:", error);
+      setError("Failed to edit project. Please try again later.");
+    }
+  };
+
+  const handleEditInputChange = (e) => {
+    const { name, value } = e.target;
+    if (name === "editProjectName") {
+      setEditProjectName(value);
+    } else if (name === "editProjectStatus") {
+      setEditProjectStatus(value);
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setEditingProjectId(null);
+    setEditProjectName("");
+    setEditProjectStatus("");
   };
 
   return (
     <>
-      <div className="todo-list-container">
-        <form className="todo-form">
-          <input
-            type="text"
-            value={inputValue}
-            onChange={handleInputChange}
-            placeholder="Your tasks..."
-          />
-          <button type="button" onClick={handleAddProject}>
-            Add
-          </button>
-        </form>
-        {isLoggedIn && projects.length > 0 && (
-          <table className="todo-list">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Status</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {projects.map((project, index) => (
-                <tr className="todo-item" key={index}>
-                  <td>{project.name}</td>
-                  <td>{project.status}</td>
-                  <td>
-                    <button
-                      onClick={() =>
-                        handleSave(project._id, newStatus || project.status)
-                      }
-                    >
-                      Save
-                    </button>
-                    <button onClick={() => handleDelete(project.name)}>
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-      </div>
+      <h2>Your Projects:</h2>
+      <input
+        type="text"
+        placeholder="Project Name"
+        value={newProjectName}
+        onChange={(e) => setNewProjectName(e.target.value)}
+      />
+      <input
+        type="text"
+        placeholder="Project Status"
+        value={newProjectStatus}
+        onChange={(e) => setNewProjectStatus(e.target.value)}
+      />
+      <button onClick={handleAddProject}>Add Project</button>
+      {error && <div style={{ color: "red" }}>{error}</div>}
+      <ul>
+        {projects.map((project, index) => (
+          <li key={index}>
+            <strong>Name:</strong> {project.name}, <strong>Status:</strong>{" "}
+            {project.status},
+            <button onClick={() => handleDeleteProject(project._id)}>
+              Delete
+            </button>
+            <button
+              onClick={() =>
+                handleEditClick(project._id, project.name, project.status)
+              }
+            >
+              Edit
+            </button>
+            {editingProjectId === project._id && (
+              <div>
+                <input
+                  type="text"
+                  name="editProjectName"
+                  value={editProjectName}
+                  onChange={handleEditInputChange}
+                />
+                <input
+                  type="text"
+                  name="editProjectStatus"
+                  value={editProjectStatus}
+                  onChange={handleEditInputChange}
+                />
+                <button onClick={() => handleEditProject(project._id)}>
+                  Save
+                </button>
+                <button onClick={handleCancelEdit}>Cancel</button>
+              </div>
+            )}
+          </li>
+        ))}
+      </ul>
     </>
   );
 };
