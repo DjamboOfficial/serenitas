@@ -32,6 +32,7 @@ function LoginPage() {
       const { token } = response.data;
       localStorage.setItem("token", token);
       setIsLoggedIn(true);
+      setUsername(username);
       console.log(username);
       navigate("/");
     } catch (error) {
