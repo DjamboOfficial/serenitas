@@ -58,11 +58,12 @@ const AuthenticatedToDoList = () => {
         }
       );
       const { message, projects } = response.data;
-      console.log(message);
-      console.log("Updated projects:", projects);
+      setProjects(projects); // Update the projects state with the new data
+      fetchProjects();
       setNewProjectName("");
       setNewProjectStatus("");
-      setProjects(projects);
+
+      console.log(projects);
     } catch (error) {
       console.error("Error adding project:", error);
       setError("Failed to add project. Please try again later.");
@@ -167,66 +168,68 @@ const AuthenticatedToDoList = () => {
         {error && <div style={{ color: "red" }}>{error}</div>}
         <table className="auth-project-table">
           <tbody>
-            {projects.map((project, index) => (
-              <div className="auth-table-project-and-edit" key={index}>
-                <div className="auth-project-table-row">
-                  <li className="auth-project-row">
-                    <h1>Name</h1>
-                    <p>{project.name}</p>
-                    <h1>Status</h1>
-                    <p>{project.status}</p>
-                    <button
-                      className="auth-button"
-                      onClick={() => handleDeleteProject(project._id)}
-                    >
-                      Delete
-                    </button>
-                    <button
-                      className="auth-button"
-                      onClick={() =>
-                        handleEditClick(
-                          project._id,
-                          project.name,
-                          project.status
-                        )
-                      }
-                    >
-                      Edit
-                    </button>
-                  </li>
-                </div>
-                {editingProjectId === project._id && (
-                  <div className="auth-table-edit">
-                    <input
-                      type="text"
-                      name="editProjectName"
-                      value={editProjectName}
-                      onChange={handleEditInputChange}
-                      placeholder="Edit name..."
-                    />
-                    <input
-                      type="text"
-                      name="editProjectStatus"
-                      value={editProjectStatus}
-                      onChange={handleEditInputChange}
-                      placeholder="Edit status..."
-                    />
-                    <button
-                      className="auth-little-button"
-                      onClick={() => handleEditProject(project._id)}
-                    >
-                      Save
-                    </button>
-                    <button
-                      className="auth-little-button"
-                      onClick={handleCancelEdit}
-                    >
-                      Cancel
-                    </button>
+            {projects &&
+              projects.length > 0 &&
+              projects.map((project, index) => (
+                <div className="auth-table-project-and-edit" key={index}>
+                  <div className="auth-project-table-row">
+                    <li className="auth-project-row">
+                      <h1>Name</h1>
+                      <p>{project.name}</p>
+                      <h1>Status</h1>
+                      <p>{project.status}</p>
+                      <button
+                        className="auth-button"
+                        onClick={() => handleDeleteProject(project._id)}
+                      >
+                        Delete
+                      </button>
+                      <button
+                        className="auth-button"
+                        onClick={() =>
+                          handleEditClick(
+                            project._id,
+                            project.name,
+                            project.status
+                          )
+                        }
+                      >
+                        Edit
+                      </button>
+                    </li>
                   </div>
-                )}
-              </div>
-            ))}
+                  {editingProjectId === project._id && (
+                    <div className="auth-table-edit">
+                      <input
+                        type="text"
+                        name="editProjectName"
+                        value={editProjectName}
+                        onChange={handleEditInputChange}
+                        placeholder="Edit name..."
+                      />
+                      <input
+                        type="text"
+                        name="editProjectStatus"
+                        value={editProjectStatus}
+                        onChange={handleEditInputChange}
+                        placeholder="Edit status..."
+                      />
+                      <button
+                        className="auth-little-button"
+                        onClick={() => handleEditProject(project._id)}
+                      >
+                        Save
+                      </button>
+                      <button
+                        className="auth-little-button"
+                        onClick={handleCancelEdit}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ))}
           </tbody>
         </table>
       </div>

@@ -25,10 +25,12 @@ router.post("/projects/new", verifyToken, async (req, res) => {
     const newProject = { name, status };
     user.projects.push(newProject);
     await user.save();
+    const allProjects = user.projects;
 
     res.json({
       message: "Project created successfully",
       project: newProject,
+      projects: allProjects,
     });
   } catch (error) {
     console.error("Error creating project:", error);

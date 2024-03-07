@@ -46,12 +46,11 @@ const Navbar = () => {
         >
           Sign Up
         </button>
-
-        <button className="navbar-button" onClick={handleLogOut}>
-          Log Out
-        </button>
-
-        {isLoggedIn && <p>i</p>}
+        {isLoggedIn && (
+          <button className="navbar-button" onClick={handleLogOut}>
+            Log Out
+          </button>
+        )}
       </div>
     </>
   );

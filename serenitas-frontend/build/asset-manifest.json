@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/static/css/main.d8d862af.css",
+    "main.js": "/static/js/main.ef225e76.js",
+    "static/media/timer-over.wav": "/static/media/timer-over.e94375d5ed11e0582961.wav",
+    "index.html": "/index.html",
+    "main.d8d862af.css.map": "/static/css/main.d8d862af.css.map",
+    "main.ef225e76.js.map": "/static/js/main.ef225e76.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d8d862af.css",
+    "static/js/main.ef225e76.js"
+  ]
+}
