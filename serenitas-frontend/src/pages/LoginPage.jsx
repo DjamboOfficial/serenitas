@@ -25,10 +25,13 @@ function LoginPage() {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:3000/auth/login", {
-        username,
-        password,
-      });
+      const response = await axios.post(
+        "https://serenitas.onrender.com/auth/login",
+        {
+          username,
+          password,
+        }
+      );
       const { token } = response.data;
       localStorage.setItem("token", token);
       setIsLoggedIn(true);

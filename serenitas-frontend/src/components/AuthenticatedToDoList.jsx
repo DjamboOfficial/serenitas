@@ -17,7 +17,7 @@ const AuthenticatedToDoList = () => {
   const fetchProjects = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:3000/protected/projects",
+        "https://serenitas.onrender.com/protected/projects",
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -46,7 +46,7 @@ const AuthenticatedToDoList = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/protected/projects/new",
+        "https://serenitas.onrender.com/protected/projects/new",
         {
           name: newProjectName,
           status: newProjectStatus,
@@ -75,7 +75,7 @@ const AuthenticatedToDoList = () => {
   const handleDeleteProject = async (projectId) => {
     try {
       const response = await axios.delete(
-        `http://localhost:3000/protected/project/${projectId}`,
+        `https://serenitas.onrender.com/protected/project/${projectId}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -100,7 +100,7 @@ const AuthenticatedToDoList = () => {
   const handleEditProject = async (projectId) => {
     try {
       const response = await axios.put(
-        `http://localhost:3000/protected/projects/update/${projectId}`,
+        `https://serenitas.onrender.com/protected/projects/update/${projectId}`,
         {
           name: editProjectName,
           status: editProjectStatus,

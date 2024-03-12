@@ -39,11 +39,14 @@ function SignupPage() {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:3000/auth/signup", {
-        username,
-        password,
-        email,
-      });
+      const response = await axios.post(
+        "https://serenitas.onrender.com/auth/signup",
+        {
+          username,
+          password,
+          email,
+        }
+      );
       const token = response.data.token;
       console.log(token);
       localStorage.setItem("token", token);
