@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import API_URL from "../config";
 
 const AuthenticatedToDoList = () => {
   const [projects, setProjects] = useState([]);
@@ -16,14 +17,11 @@ const AuthenticatedToDoList = () => {
 
   const fetchProjects = async () => {
     try {
-      const response = await axios.get(
-        "https://serenitas.onrender.com/protected/projects",
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
+      const response = await axios.get(`${API_URL}/protected/projects`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       const { projects } = response.data;
       setProjects(projects);
     } catch (error) {
@@ -46,7 +44,7 @@ const AuthenticatedToDoList = () => {
 
     try {
       const response = await axios.post(
-        "https://serenitas.onrender.com/protected/projects/new",
+        `${API_URL}/protected/projects/new`,
         {
           name: newProjectName,
           status: newProjectStatus,
@@ -75,7 +73,7 @@ const AuthenticatedToDoList = () => {
   const handleDeleteProject = async (projectId) => {
     try {
       const response = await axios.delete(
-        `https://serenitas.onrender.com/protected/project/${projectId}`,
+        `${API_URL}/protected/project/${projectId}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -100,7 +98,7 @@ const AuthenticatedToDoList = () => {
   const handleEditProject = async (projectId) => {
     try {
       const response = await axios.put(
-        `https://serenitas.onrender.com/protected/projects/update/${projectId}`,
+        `${API_URL}/protected/projects/update/${projectId}`,
         {
           name: editProjectName,
           status: editProjectStatus,

@@ -4,6 +4,7 @@ import { useAuth } from "../contexts/authContext.js";
 import axios from "axios";
 import Navbar from "../components/Navbar";
 import "../styles/signupPage.css";
+import API_URL from "../config.js";
 
 function SignupPage() {
   const {
@@ -39,14 +40,11 @@ function SignupPage() {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        "https://serenitas.onrender.com/auth/signup",
-        {
-          username,
-          password,
-          email,
-        }
-      );
+      const response = await axios.post(`${API_URL}/auth/signup`, {
+        username,
+        password,
+        email,
+      });
       const token = response.data.token;
       console.log(token);
       localStorage.setItem("token", token);

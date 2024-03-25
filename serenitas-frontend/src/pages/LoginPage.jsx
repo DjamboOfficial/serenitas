@@ -5,6 +5,7 @@ import { Redirect, redirect } from "react-router-dom";
 import "../styles/loginPage.css";
 import axios from "axios";
 import Navbar from "../components/Navbar";
+import API_URL from "../config";
 
 function LoginPage() {
   const { isLoggedIn, setIsLoggedIn } = useAuth();
@@ -25,13 +26,10 @@ function LoginPage() {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        "https://serenitas.onrender.com/auth/login",
-        {
-          username,
-          password,
-        }
-      );
+      const response = await axios.post(`${API_URL}/auth/login`, {
+        username,
+        password,
+      });
       const { token } = response.data;
       localStorage.setItem("token", token);
       setIsLoggedIn(true);
