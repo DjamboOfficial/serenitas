@@ -11,7 +11,12 @@ connectToDatabase();
 const authRoutes = require("./routes/authRoutes");
 const userProjectRoutes = require("./routes/userProjectRoutes.js");
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://serenitas.netlify.app/",
+    optionsSuccessStatus: 200,
+  })
+);
 app.use(bodyParser.json());
 
 app.use("/auth", authRoutes);
