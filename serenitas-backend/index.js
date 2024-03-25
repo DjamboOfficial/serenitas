@@ -13,7 +13,7 @@ const userProjectRoutes = require("./routes/userProjectRoutes.js");
 
 app.use(
   cors({
-    origin: "https://serenitas.netlify.app/",
+    origin: "https://serenitas.netlify.app",
     optionsSuccessStatus: 200,
   })
 );
