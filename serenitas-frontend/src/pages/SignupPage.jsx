@@ -38,15 +38,18 @@ function SignupPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    console.log("Submitting...");
     try {
+      console.log("Sending request to:", `${API_URL}/auth/signup`);
+      console.log("Request body:", { username, password, email });
       const response = await axios.post(`${API_URL}/auth/signup`, {
         username,
         password,
         email,
       });
+      console.log("Signup request successful:", response.data);
       const token = response.data.token;
-      console.log(token);
+      console.log("Received token:", token);
       localStorage.setItem("token", token);
       setIsLoggedIn(true); // Update authentication state
       setUsername(username);
