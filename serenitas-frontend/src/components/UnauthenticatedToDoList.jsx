@@ -8,7 +8,8 @@ function AuthenticatedToDoList() {
 
   const handleInputChange = (e) => setInputValue(e.target.value);
 
-  const handleAddProject = () => {
+  const handleAddProject = (e) => {
+    e.preventDefault(); // Prevent form submission
     if (inputValue.trim() !== "") {
       setList([...list, inputValue]);
       setInputValue("");
@@ -29,6 +30,12 @@ function AuthenticatedToDoList() {
               type="text"
               value={inputValue}
               onChange={handleInputChange}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault(); // Prevent form submission
+                  handleAddProject(e);
+                }
+              }}
               placeholder="Your tasks..."
             />
             <button type="button" onClick={handleAddProject}>

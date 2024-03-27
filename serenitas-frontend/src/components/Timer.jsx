@@ -1,8 +1,18 @@
-import React, { useState, useEffect } from "react";
-import alarmSound from "../assets/timer-over.wav";
+import React, { useState, useEffect, useRef } from "react";
+
 export const Timer = () => {
   const [timeRemaining, setTimeRemaining] = useState(1500);
   const [isRunning, setIsRunning] = useState(false);
+  const startAudioRef = useRef(
+    new Audio(
+      "https://res.cloudinary.com/dgwvbd9ki/video/upload/v1711530123/serenitas/baths_tofqc6.mp3"
+    )
+  ); // Create reference for start sound
+  const alarmAudioRef = useRef(
+    new Audio(
+      "https://res.cloudinary.com/dgwvbd9ki/video/upload/v1711531628/serenitas/lituus_uvnm2s.mp3"
+    )
+  ); // Create reference for alarm sound
 
   useEffect(() => {
     let timer;
@@ -13,14 +23,26 @@ export const Timer = () => {
       }, 1000);
     } else if (timeRemaining === 0) {
       // Play the alarm sound when time is up
-      const audio = new Audio(alarmSound);
-      audio.play();
+      alarmAudioRef.current.play();
+      startAudioRef.current.pause(); // Play alarm audio
     }
 
     return () => {
       clearInterval(timer);
     };
   }, [isRunning, timeRemaining]);
+
+  useEffect(() => {
+    if (isRunning) {
+      // Play the start sound when timer starts
+      startAudioRef.current.play(); // Play start audio
+      startAudioRef.current.volume = 0.3;
+    } else {
+      // Pause the start sound when timer is paused or reset
+      startAudioRef.current.pause();
+      startAudioRef.current.currentTime = 0; // Reset audio to beginning
+    }
+  }, [isRunning]);
 
   const toggleTimer = () => {
     setIsRunning((prevState) => !prevState);
