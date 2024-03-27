@@ -4,7 +4,8 @@ import "../styles/contact-form.css";
 export const ContactForm = () => {
   const handleButtonClick = () => {
     const emailRecipient = "edoardo.giambuzzi@gmail.com";
-    const mailToLink = `mailto:${emailRecipient}`;
+    const subject = "serenitas | Query";
+    const mailToLink = `mailto:${emailRecipient}?subject=${subject}`;
     window.location.href = mailToLink;
   };
 
