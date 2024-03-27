@@ -1,7 +1,7 @@
 .mail-button-container {
   height: 5vw;
   width: 5vw;
-  background-color: red;
+  background-color: transparent;
   position: fixed;
   margin-bottom: -70vh;
   margin-right: -90vw;
