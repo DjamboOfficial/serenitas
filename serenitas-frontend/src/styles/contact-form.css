@@ -1,0 +1,16 @@
+.mail-button-container {
+  height: 5vw;
+  width: 5vw;
+  background-color: red;
+  position: fixed;
+  margin-bottom: -70vh;
+  margin-right: -90vw;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background-image: url("https://res.cloudinary.com/dgwvbd9ki/image/upload/v1711527439/serenitas/djambo1990_51954_an_envelope_the_way_Jacques_Louis_David_would__de60a7e5-1a9f-4a5a-8118-7b651d54e0b7_bx6xzl.png");
+  background-position: center;
+  background-size: cover;
+  border: 2px solid gold;
+}

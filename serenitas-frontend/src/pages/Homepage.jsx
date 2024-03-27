@@ -11,6 +11,7 @@ import { Timer } from "../components/Timer";
 import Navbar from "../components/Navbar";
 import UnauthenticatedToDoList from "../components/UnauthenticatedToDoList";
 import AuthenticatedToDoList from "../components/AuthenticatedToDoList";
+import { ContactForm } from "../components/ContactForm";
 
 function Homepage() {
   const { isLoggedIn } = useAuth();
@@ -27,6 +28,7 @@ function Homepage() {
         <Timer />
         {isLoggedIn ? <AuthenticatedToDoList /> : <UnauthenticatedToDoList />}
         <ApiCalls />
+        <ContactForm />
       </div>
     </>
   );
