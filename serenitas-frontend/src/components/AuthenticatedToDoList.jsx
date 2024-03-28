@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import API_URL from "../config";
+import { useAuth } from "../contexts/authContext";
 
 const AuthenticatedToDoList = () => {
   const [projects, setProjects] = useState([]);
@@ -10,9 +11,11 @@ const AuthenticatedToDoList = () => {
   const [editProjectName, setEditProjectName] = useState("");
   const [editProjectStatus, setEditProjectStatus] = useState("");
   const [error, setError] = useState(null);
+  const [username, setUsername] = useState("");
 
   useEffect(() => {
     fetchProjects();
+    setUsername(username);
   }, []);
 
   const fetchProjects = async () => {
