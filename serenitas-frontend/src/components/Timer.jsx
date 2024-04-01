@@ -20,6 +20,10 @@ export const Timer = () => {
     if (isRunning && timeRemaining > 0) {
       timer = setInterval(() => {
         setTimeRemaining((prevTime) => prevTime - 1);
+        if (timeRemaining === 300) {
+          // 300 seconds = 5 minutes
+          alarmAudioRef.current.play();
+        }
       }, 1000);
     } else if (timeRemaining === 0) {
       // Play the alarm sound when time is up
@@ -50,6 +54,8 @@ export const Timer = () => {
 
   const resetTimer = () => {
     setIsRunning(false);
+    alert("Timer stopped!");
+
     setTimeRemaining(1500);
   };
 

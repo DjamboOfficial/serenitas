@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import API_URL from "../config";
+
 import {
   fetchProjects,
   addProject,
@@ -172,7 +173,7 @@ const AuthenticatedToDoList = () => {
                         className="auth-little-button"
                         onClick={handleCancelEdit}
                       >
-                        Cancel
+                        {user.username}
                       </button>
                     </div>
                   )}

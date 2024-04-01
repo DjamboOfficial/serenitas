@@ -14,7 +14,7 @@ import AuthenticatedToDoList from "../components/AuthenticatedToDoList";
 import { ContactForm } from "../components/ContactForm";
 
 function Homepage() {
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, username } = useAuth();
 
   return (
     <>
@@ -22,7 +22,7 @@ function Homepage() {
       <div className="homepage">
         {isLoggedIn && (
           <div className="homepage-salute-container">
-            <h1 className="homepage-salute">Ave</h1>
+            <h1 className="homepage-salute">Ave, {username}</h1>
           </div>
         )}
         <Timer />
