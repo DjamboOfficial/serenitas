@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import API_URL from "../config";
-import { useAuth } from "../contexts/authContext";
+import {
+  fetchProjects,
+  addProject,
+  deleteProject,
+  updateProject,
+} from "../utils/projectAPI";
 
 const AuthenticatedToDoList = () => {
   const [projects, setProjects] = useState([]);
@@ -14,24 +19,9 @@ const AuthenticatedToDoList = () => {
   const [username, setUsername] = useState("");
 
   useEffect(() => {
-    fetchProjects();
+    fetchProjects(setProjects, setError);
     setUsername(username);
   }, []);
-
-  const fetchProjects = async () => {
-    try {
-      const response = await axios.get(`${API_URL}/protected/projects`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-      const { projects } = response.data;
-      setProjects(projects);
-    } catch (error) {
-      console.error("Error fetching projects:", error);
-      setError("Failed to fetch projects. Please try again later.");
-    }
-  };
 
   const handleAddProject = async (e) => {
     e.preventDefault(); // Prevent the default form submission behavior
@@ -40,52 +30,20 @@ const AuthenticatedToDoList = () => {
       setError("Project name and status are required.");
       return;
     }
-    if (!newProjectName || !newProjectStatus) {
-      setError("Project name and status are required.");
-      return;
-    }
 
     try {
-      const response = await axios.post(
-        `${API_URL}/protected/projects/new`,
-        {
-          name: newProjectName,
-          status: newProjectStatus,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      const { message, projects } = response.data;
-      setProjects(projects); // Update the projects state with the new data
-      fetchProjects();
+      await addProject(newProjectName, newProjectStatus, setProjects, setError);
       setNewProjectName("");
       setNewProjectStatus("");
-
-      console.log(projects);
     } catch (error) {
       console.error("Error adding project:", error);
       setError("Failed to add project. Please try again later.");
     }
   };
 
-  const handleInputChange = (e) => setNewProjectName(e.target.value);
-
   const handleDeleteProject = async (projectId) => {
     try {
-      const response = await axios.delete(
-        `${API_URL}/protected/project/${projectId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      const { message, projects } = response.data;
-      console.log(message);
-      setProjects(projects); // Update the projects state after deletion
+      await deleteProject(projectId, setProjects, setError);
     } catch (error) {
       console.error("Error deleting project:", error);
       setError("Failed to delete project. Please try again later.");
@@ -100,25 +58,12 @@ const AuthenticatedToDoList = () => {
 
   const handleEditProject = async (projectId) => {
     try {
-      const response = await axios.put(
-        `${API_URL}/protected/projects/update/${projectId}`,
-        {
-          name: editProjectName,
-          status: editProjectStatus,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      const { message, project: updatedProject } = response.data;
-      console.log(message);
-      // Update the projects list to reflect the changes
-      setProjects((prevProjects) =>
-        prevProjects.map((project) =>
-          project._id === updatedProject._id ? updatedProject : project
-        )
+      await updateProject(
+        projectId,
+        editProjectName,
+        editProjectStatus,
+        setProjects,
+        setError
       );
       // Reset editing state
       setEditingProjectId(null);
@@ -130,6 +75,14 @@ const AuthenticatedToDoList = () => {
     }
   };
 
+  const handleCancelEdit = () => {
+    setEditingProjectId(null);
+    setEditProjectName("");
+    setEditProjectStatus("");
+  };
+
+  const handleInputChange = (e) => setNewProjectName(e.target.value);
+
   const handleEditInputChange = (e) => {
     const { name, value } = e.target;
     if (name === "editProjectName") {
@@ -137,12 +90,6 @@ const AuthenticatedToDoList = () => {
     } else if (name === "editProjectStatus") {
       setEditProjectStatus(value);
     }
-  };
-
-  const handleCancelEdit = () => {
-    setEditingProjectId(null);
-    setEditProjectName("");
-    setEditProjectStatus("");
   };
 
   return (
@@ -239,42 +186,3 @@ const AuthenticatedToDoList = () => {
 };
 
 export default AuthenticatedToDoList;
-
-/*
-
-
-            <div className="auth-table-project-container">
-              {projects.map((project, index) => (
-                <div className="auth-table-row-and-edit">
-                  <div className="auth-project-row">
-                    <li className="auth-project-table-row" key={index}>
-                      <h1>Name:</h1> <p>{project.name}</p> <h1>Status:</h1>{" "}
-                      <p>{project.status}</p>
-                      <button
-                        className="auth-button"
-                        onClick={() => handleDeleteProject(project._id)}
-                      >
-                        Delete
-                      </button>
-                      <button
-                        className="auth-button"
-                        onClick={() =>
-                          handleEditClick(
-                            project._id,
-                            project.name,
-                            project.status
-                          )
-                        }
-                      >
-                        Edit
-                      </button>
-                    </li>
-                  </div>
-                    
-                  <div className="auth-table-project-container">
-
-                  
-            </div>
-          
-
-*/

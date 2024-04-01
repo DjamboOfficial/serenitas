@@ -35,7 +35,7 @@ function LoginPage() {
       setIsLoggedIn(true);
       setUsername(username);
       console.log(username);
-      navigate("/");
+      navigate("/dashboard");
     } catch (error) {
       console.error("An error occurred:", error);
     }
