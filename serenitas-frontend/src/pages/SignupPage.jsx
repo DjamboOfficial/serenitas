@@ -98,3 +98,5 @@ function SignupPage() {
 }
 
 export default SignupPage;
+
+/* Can't I just set the user, and import everything from that as properties? */

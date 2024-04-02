@@ -8,9 +8,17 @@ import Navbar from "../components/Navbar";
 import API_URL from "../config";
 
 function LoginPage() {
-  const { login } = useAuth();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const {
+    isLoggedIn,
+    setIsLoggedIn,
+    username,
+    setUsername,
+    email,
+    setEmail,
+    password,
+    setPassword,
+  } = useAuth();
+
   const navigate = useNavigate();
 
   const handleUsernameChange = (e) => {
@@ -31,7 +39,8 @@ function LoginPage() {
       });
       const { token, user } = response.data;
       localStorage.setItem("token", token);
-      login(user); // Set user data in the context
+      setIsLoggedIn(true); // Update authentication state
+      setUsername(username);
       navigate("/");
     } catch (error) {
       console.error("An error occurred:", error);

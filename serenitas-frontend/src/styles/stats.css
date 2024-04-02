@@ -1,0 +1,24 @@
+.stats-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: yellow;
+  width: 100px; /* Initial width */
+  height: 100px; /* Initial height */
+  transition: width 5s ease, height 5s ease, background-color 5s ease; /* Adjust transition durations */
+}
+
+.stats-box {
+  height: 100px;
+  width: 100px;
+  background-color: red;
+  border: 2px solid darkgray;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.stats-container.open {
+  background-color: blue;
+  width: 400px; /* Enlarged width */
+  height: 400px; /* Enlarged height */
+}

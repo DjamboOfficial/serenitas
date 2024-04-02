@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useAuth } from "../contexts/authContext";
+import API_URL from "../config";
 
 export const Timer = () => {
+  const { username, isLoggedIn } = useAuth(); // Providing default value as empty object
   const [timeRemaining, setTimeRemaining] = useState(1500);
   const [isRunning, setIsRunning] = useState(false);
   const startAudioRef = useRef(
@@ -12,8 +15,7 @@ export const Timer = () => {
     new Audio(
       "https://res.cloudinary.com/dgwvbd9ki/video/upload/v1711531628/serenitas/lituus_uvnm2s.mp3"
     )
-  ); // Create reference for alarm sound
-
+  );
   useEffect(() => {
     let timer;
 
@@ -25,16 +27,35 @@ export const Timer = () => {
           alarmAudioRef.current.play();
         }
       }, 1000);
-    } else if (timeRemaining === 0) {
+    }
+
+    if (timeRemaining === 0) {
       // Play the alarm sound when time is up
       alarmAudioRef.current.play();
       startAudioRef.current.pause(); // Play alarm audio
+      fetch(`${API_URL}/auth/minutes`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({
+          username: username,
+          completedTimerMinutes: 1500,
+        }),
+        // Assuming 25 minutes for 1500 seconds
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((error) => console.error("Error:", error));
     }
 
     return () => {
       clearInterval(timer);
     };
-  }, [isRunning, timeRemaining]);
+  }, [isRunning, timeRemaining, username]);
 
   useEffect(() => {
     if (isRunning) {
@@ -44,7 +65,7 @@ export const Timer = () => {
     } else {
       // Pause the start sound when timer is paused or reset
       startAudioRef.current.pause();
-      startAudioRef.current.currentTime = 0; // Reset audio to beginning
+      startAudioRef.current.currentTime = 0;
     }
   }, [isRunning]);
 
@@ -54,7 +75,6 @@ export const Timer = () => {
 
   const resetTimer = () => {
     setIsRunning(false);
-    alert("Timer stopped!");
 
     setTimeRemaining(1500);
   };

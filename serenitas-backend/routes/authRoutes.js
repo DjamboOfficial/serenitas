@@ -3,7 +3,7 @@ const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const router = express.Router();
-const { generateToken } = require("../authMiddleware");
+const { generateToken, verifyToken } = require("../authMiddleware");
 
 router.post("/signup", async (req, res) => {
   const { username, password, email } = req.body;
@@ -43,6 +43,22 @@ router.post("/login", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error, but..." });
+  }
+});
+
+router.put("/minutes", verifyToken, async (req, res) => {
+  try {
+    const { username, completedTimerMinutes } = req.body; // Extract username and completedTimerMinutes from req.body
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
+    user.activityMinutes = (user.activityMinutes || 0) + completedTimerMinutes;
+    await user.save();
+    res.status(200).json({ message: "Activity minutes updated successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
   }
 });
 
