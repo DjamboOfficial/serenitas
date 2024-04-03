@@ -16,10 +16,12 @@ export const ApiCalls = () => {
 
   const getQuoteMarcus = async () => {
     try {
-      const response = await fetch("https://api.quotable.io/random");
+      const response = await fetch(
+        "https://vox-romana-api.onrender.com/database/random"
+      );
       const data = await response.json();
       setQuoteMarcus(
-        `"${data.content}," said ${data.author}. Be inspired and carry on, my fellow man.`
+        `"${data.text}" ${data.author} said so. Be inspired and carry on, my fellow man.`
       );
       setShowContentMarcus(true);
       setButtonMarcusVisible(false);
