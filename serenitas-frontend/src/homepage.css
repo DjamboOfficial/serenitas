@@ -13,7 +13,7 @@ body {
   text-align: center;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
   overflow: hidden;
   height: 100%;
@@ -67,4 +67,18 @@ body {
   100% {
     transform: rotate(360deg);
   }
+}
+
+.homepage-features {
+  display: flex;
+  flex-direction: column;
+  background-color: bisque;
+  border-radius: 5vh;
+  justify-content: center;
+  align-items: center;
+  gap: 2vh;
+  position: fixed;
+  top: 10vh;
+  right: 10vh;
+  height: 40vh;
 }

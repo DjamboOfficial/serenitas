@@ -27,10 +27,14 @@ function Homepage() {
           </div>
         )}
         <Timer />
-        <Stats />
         {isLoggedIn ? <AuthenticatedToDoList /> : <UnauthenticatedToDoList />}
-        <ApiCalls />
-        <ContactForm />
+
+        <div className="homepage-features">
+          <Stats />
+          <ApiCalls />
+
+          <ContactForm />
+        </div>
       </div>
     </>
   );

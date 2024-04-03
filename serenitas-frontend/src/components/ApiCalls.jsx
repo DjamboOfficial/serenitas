@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { livyData } from "../data/livyData";
+import "../styles/api-buttons.css";
 
 export const ApiCalls = () => {
+  const [isOpen, setIsOpen] = useState(false);
   const [quoteMarcus, setQuoteMarcus] = useState("");
   const [quotePliny, setQuotePliny] = useState("");
   const [quoteLivy, setQuoteLivy] = useState("");
@@ -76,76 +78,80 @@ export const ApiCalls = () => {
 
   return (
     <>
-      <div className="api-buttons">
-        {buttonMarcusVisible && (
-          <button className="marcus-aurelius-button" onClick={getQuoteMarcus}>
-            Are you in need of inspiration? Get a quote from Emperor Marcus
-            Aurelius!
-          </button>
-        )}
+      <button
+        className="open-button"
+        onClick={() => {
+          setIsOpen(!isOpen);
+          const intervalId = setInterval(() => {});
+          return () => clearInterval(intervalId);
+        }}
+      ></button>
 
-        {buttonPlinyVisible && (
-          <button onClick={getQuotePliny} className="pliny-button">
-            Are you bored? Pliny the Elder can help you!
-          </button>
-        )}
-        {buttonLivyVisible && (
-          <button onClick={getQuoteLivy} className="livy-button">
-            How about a random <br />
-            Roman Empire fact?
-            <br />
-            Livy here has a bunch!
-          </button>
-        )}
-      </div>
+      {isOpen && (
+        <div className="api-buttons">
+          {buttonMarcusVisible && (
+            <button
+              className="marcus-aurelius-button"
+              onClick={getQuoteMarcus}
+            ></button>
+          )}
+
+          {buttonPlinyVisible && (
+            <button onClick={getQuotePliny} className="pliny-button"></button>
+          )}
+          {buttonLivyVisible && (
+            <button onClick={getQuoteLivy} className="livy-button"></button>
+          )}
+        </div>
+      )}
       {showContentMarcus && (
-        <>
-          <div className="inspiration-container">
-            <textarea
-              className="quote-textarea"
-              value={quoteMarcus}
-              readOnly
-            ></textarea>
-            <img
-              className="marcus-aurelius-image"
-              src="https://res.cloudinary.com/dgwvbd9ki/image/upload/v1708679316/serenitas/Marcus-Aurelius-1-removebg-preview_bve0pj.png"
-              alt="marcus-aurelius-image"
-            />
-          </div>
-        </>
+        <div className="inspiration-container">
+          <textarea
+            className="quote-textarea"
+            value={quoteMarcus}
+            readOnly
+          ></textarea>
+          <img
+            className="marcus-aurelius-image"
+            src="https://res.cloudinary.com/dgwvbd9ki/image/upload/v1708679316/serenitas/Marcus-Aurelius-1-removebg-preview_bve0pj.png"
+            alt="marcus-aurelius-image"
+          />
+        </div>
       )}
       {showContentPliny && (
-        <>
-          <div className="bored-container">
-            <textarea
-              className="bored-textarea"
-              value={quotePliny}
-              readOnly
-            ></textarea>
-            <img
-              className="pliny-image"
-              src="https://res.cloudinary.com/dgwvbd9ki/image/upload/v1708953853/serenitas/djambo1990_51954_the_Roman_writer_Pliny_the_Elder_portrayed_in__0d1c295e-f781-4872-94dd-46d8be32974a-removebg-preview_bmjdmd.png"
-              alt="Pliny-image"
-            />
-          </div>
-        </>
+        <div className="bored-container">
+          <textarea
+            className="bored-textarea"
+            value={quotePliny}
+            readOnly
+          ></textarea>
+          <img
+            className="pliny-image"
+            src="https://res.cloudinary.com/dgwvbd9ki/image/upload/v1708953853/serenitas/djambo1990_51954_the_Roman_writer_Pliny_the_Elder_portrayed_in__0d1c295e-f781-4872-94dd-46d8be32974a-removebg-preview_bmjdmd.png"
+            alt="Pliny-image"
+          />
+        </div>
       )}
       {showContentLivy && (
-        <>
-          <div className="history-container">
-            <textarea
-              className="history-textarea"
-              value={quoteLivy}
-              readOnly
-            ></textarea>
-            <img
-              className="livy-image"
-              src="https://res.cloudinary.com/dgwvbd9ki/image/upload/v1709060805/serenitas/djambo1990_51954_the_Roman_historian_Livy_portrayed_in_the_styl_1912029b-d576-4c03-aa80-de53ea4f15dd_l08j45-removebg-preview_hy4fwl.png"
-              alt="Livy-image"
-            />
-          </div>
-        </>
+        <div className="history-container">
+          <textarea
+            className="history-textarea"
+            value={quoteLivy}
+            readOnly
+          ></textarea>
+          <img
+            className="livy-image"
+            src="https://res.cloudinary.com/dgwvbd9ki/image/upload/v1709060805/serenitas/djambo1990_51954_the_Roman_historian_Livy_portrayed_in_the_styl_1912029b-d576-4c03-aa80-de53ea4f15dd_l08j45-removebg-preview_hy4fwl.png"
+            alt="Livy-image"
+          />
+        </div>
       )}
     </>
   );
 };
+
+/* Ricapitoliamo. 
+
+1. se clicco sul pulsante di VoxRomana, devo vedere i pulsanti, e 
+2. se fluttuo sui pulsanti , devo vedere i testi, e
+3. se clicco sui testi, devono uscire i personaggi. */

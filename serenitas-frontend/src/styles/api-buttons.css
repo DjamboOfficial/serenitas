@@ -1,0 +1,91 @@
+.open-button {
+  background-image: url("https://res.cloudinary.com/dgwvbd9ki/image/upload/v1708599341/portfolio/1-removebg-preview_jtzf52.png");
+  background-color: transparent;
+  background-size: cover;
+  height: 10vh;
+  right: 10vh;
+  width: 10vh;
+  border: none;
+}
+
+.api-buttons {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 50vh;
+  right: 10vh;
+  gap: 1vh;
+  margin-top: 2vh;
+}
+
+.marcus-aurelius-button {
+  font-family: "Cinzel Decorative", sans-serif;
+  background-color: rgb(99, 0, 0);
+  background-image: url("https://res.cloudinary.com/dgwvbd9ki/image/upload/v1708679316/serenitas/Marcus-Aurelius-1-removebg-preview_bve0pj.png");
+  background-size: cover;
+  border: 5px solid gold;
+  color: white;
+  font-size: 2vh;
+  height: 13vh;
+  width: 13vh;
+  border-radius: 50%;
+  cursor: pointer;
+  transition-duration: 1s;
+}
+
+.marcus-aurelius-button:hover {
+  border-radius: 0%;
+  background-color: transparent;
+  color: white;
+  border: 1px solid white;
+  transition-duration: 1s ease;
+}
+
+.pliny-button {
+  font-family: "Cinzel Decorative", sans-serif;
+  background-color: rgb(99, 0, 0);
+  background-image: url("https://res.cloudinary.com/dgwvbd9ki/image/upload/v1708953853/serenitas/djambo1990_51954_the_Roman_writer_Pliny_the_Elder_portrayed_in__0d1c295e-f781-4872-94dd-46d8be32974a-removebg-preview_bmjdmd.png");
+  background-size: cover;
+  border: 5px solid gold;
+  color: white;
+  font-size: 2vh;
+  height: 13vh;
+  width: 13vh;
+  border-radius: 50%;
+  cursor: help;
+  transition-duration: 1s;
+}
+
+.pliny-button:hover {
+  border-radius: 0%;
+  background-color: transparent;
+  color: white;
+  border: 1px solid white;
+}
+
+.livy-button {
+  font-family: "Cinzel Decorative", sans-serif;
+  background-color: rgb(99, 0, 0);
+  background-image: url("https://res.cloudinary.com/dgwvbd9ki/image/upload/v1709060805/serenitas/djambo1990_51954_the_Roman_historian_Livy_portrayed_in_the_styl_1912029b-d576-4c03-aa80-de53ea4f15dd_l08j45-removebg-preview_hy4fwl.png");
+  background-size: cover;
+  border: 5px solid gold;
+  color: white;
+  font-size: 2vh;
+  height: 14vh;
+  width: 14vh;
+  border-radius: 50%;
+  cursor: pointer;
+  transition-duration: 1s;
+}
+
+.livy-button:hover {
+  border-radius: 0%;
+  background-color: transparent;
+  color: white;
+  border: 1px solid white;
+  transition-duration: 1s ease;
+}
+
+a:visited {
+  text-decoration: none;
+}
