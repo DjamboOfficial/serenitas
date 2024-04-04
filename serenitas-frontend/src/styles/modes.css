@@ -1,16 +1,33 @@
 /* Modes */
 
 .modes-container {
-  height: 100px;
-  background-color: transparent;
   position: fixed;
   top: 15vh;
-  left: 15vh;
+  left: 12vh !important;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  gap: 5vh;
+}
+
+.modes-show-button {
+  height: 12vh;
+  width: 12vh;
+  border-radius: 50%;
+  background-size: cover;
+  transition: border-radius 2s ease, background-image 2s ease;
 }
 
 .modes-list {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  gap: 2vh;
+}
+
+.modes-button {
+  font-family: "Cinzel Decorative", sans-serif;
+  height: 4vh;
+  font-size: 2vh;
+  background-color: antiquewhite;
 }

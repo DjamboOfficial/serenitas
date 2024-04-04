@@ -16,11 +16,12 @@ import Stats from "../components/Stats";
 import { connect } from "react-redux";
 import { setMode } from "../redux/actions";
 import ModesContainer from "../components/ModesContainer";
+import "../styles/modes.css";
 
 function Homepage({ mode, setMode }) {
   const { isLoggedIn, username } = useAuth();
   const [background, setBackground] = useState(
-    "https://res.cloudinary.com/dgwvbd9ki/image/upload/v1702545803/DesktopZenGarden_xqumz1.png"
+    "https://res.cloudinary.com/dgwvbd9ki/image/upload/v1707131141/serenitas/senator_b07auj.png"
   );
 
   return (

@@ -3,38 +3,40 @@
   background-color: transparent;
   background-image: url("https://res.cloudinary.com/dgwvbd9ki/image/upload/v1712126142/serenitas/djambo1990_51954_an_abacus_painted_in_the_style_of_Jacques_Loui_46c3099a-cf86-437f-b5da-a810de12f2f8-removebg-preview_wkvcyd.png");
   background-size: cover;
-  width: 100px; /* Initial width */
-  height: 100px; /* Initial height */
+  width: 8vh; /* Initial width */
+  height: 8vh; /* Initial height */
   transition: width 5s ease, height 5s ease, background-color 5s ease,
     background-image 1s ease-in; /* Adjust transition durations */
 }
 
 .stats-box {
   display: none;
-  transition: 2s ease;
+  transition: opacity 2s ease; /* Transition for opacity when opening */
 }
 
 .stats-box.open {
   display: flex;
   flex-direction: column;
-  height: 100%;
+
   color: black;
-  width: 100%;
+
   background-color: transparent;
   border-radius: 5vh;
   cursor: pointer;
-}
-
-.list-item {
-  list-style-type: none;
+  opacity: 1; /* Ensure the stats box is fully visible when open */
+  justify-content: center;
+  align-items: center;
 }
 
 .stats-container.open {
   background-color: antiquewhite;
   background-image: none;
-  width: 60vh; /* Enlarged width */
+  display: flex;
+  width: 35vh; /* Enlarged width */
   border-radius: 5vh;
   height: 30vh; /* Enlarged height */
+  justify-content: center;
+  align-items: center;
 }
 
 .users-list {
@@ -55,10 +57,13 @@
   background-color: #f0f0f0; /* Background color of the progress bar container */
   border-radius: 5px; /* Border radius for rounded corners */
   overflow: hidden; /* Hide overflow to clip the progress bar */
+  justify-content: center;
+  align-items: center;
 }
 
 .progress-bar {
   height: 100%;
+  width: 50%;
   background-color: green; /* Default color for the progress bar */
   transition: width 0.5s ease; /* Smooth transition effect for width changes */
 }

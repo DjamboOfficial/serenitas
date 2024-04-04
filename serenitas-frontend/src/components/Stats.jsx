@@ -21,6 +21,10 @@ const Stats = () => {
       });
   }, []);
 
+  const getMaxActivityMinutes = () => {
+    return Math.max(...activityData.map((data) => data.activityMinutes), 0);
+  };
+
   const getColor = (minutes) => {
     if (minutes >= 60) {
       return "green"; // Green color for high activity (more than 60 minutes)
@@ -47,7 +51,9 @@ const Stats = () => {
                   <div
                     className="progress-bar"
                     style={{
-                      width: `${data.activityMinutes}%`,
+                      width: `${
+                        (data.activityMinutes / getMaxActivityMinutes()) * 100
+                      }%`,
                       backgroundColor: getColor(data.activityMinutes),
                     }}
                   ></div>
