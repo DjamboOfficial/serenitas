@@ -1,0 +1,16 @@
+/* Modes */
+
+.modes-container {
+  height: 100px;
+  background-color: transparent;
+  position: fixed;
+  top: 15vh;
+  left: 15vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.modes-list {
+  display: flex;
+  flex-direction: column;
+}

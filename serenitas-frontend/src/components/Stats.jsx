@@ -21,6 +21,16 @@ const Stats = () => {
       });
   }, []);
 
+  const getColor = (minutes) => {
+    if (minutes >= 60) {
+      return "green"; // Green color for high activity (more than 60 minutes)
+    } else if (minutes >= 30) {
+      return "orange"; // Orange color for moderate activity (between 30 and 60 minutes)
+    } else {
+      return "red"; // Red color for low activity (less than 30 minutes)
+    }
+  };
+
   return (
     <div
       className={`stats-container ${isOpen ? "open" : ""}`}
@@ -29,10 +39,19 @@ const Stats = () => {
       <div className={`stats-box ${isOpen ? "open" : ""}`}>
         <h2>serenitas most active users</h2>
         {activityData.length > 0 ? (
-          <ul>
+          <ul className="users-list">
             {activityData.map((data) => (
               <li className="list-item" key={data.userId}>
                 User {data.userId}: {data.activityMinutes} minutes
+                <div className="progress-bar-container">
+                  <div
+                    className="progress-bar"
+                    style={{
+                      width: `${data.activityMinutes}%`,
+                      backgroundColor: getColor(data.activityMinutes),
+                    }}
+                  ></div>
+                </div>
               </li>
             ))}
           </ul>
