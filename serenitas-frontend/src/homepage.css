@@ -88,10 +88,6 @@ body {
   height: 40vh;
 }
 
-.homepage-features img {
-  background-color: black;
-}
-
 @media (max-width: 1000px) {
   .homepage-features,
   .homepage-salute-container {
