@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @import url("https://fonts.googleapis.com/css2?family=Cinzel+Decorative&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Bungee+Spice&family=Great+Vibes&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Slab:wght@100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 body {
@@ -12,6 +16,12 @@ body {
 
 .homepage {
   font-family: "Cinzel Decorative", sans-serif;
+  background-image: url("https://res.cloudinary.com/dgwvbd9ki/image/upload/v1712220661/serenitas/Alba%20Fucens/djambo1990_51954_a_majestic_mountain_landscape_with_rugged_peak_a2268e4c-4f25-4fa2-8dd7-a85feef4ff55_jlmcjr.png"),
+    url("https://res.cloudinary.com/dgwvbd9ki/image/upload/v1712220659/serenitas/Aqua%20Sulis/djambo1990_51954_an_ancient_Roman_bathhouse_adorned_with_intric_d5d7d1bd-a7e1-4b6d-b8ec-87222016173e_awgs9o.png"),
+    url("https://res.cloudinary.com/dgwvbd9ki/image/upload/v1712220692/serenitas/Nemausus/djambo1990_51954_a_serene_forest_glade_bathed_in_dappled_sunlig_d96e3637-6714-4e01-9622-36128c9afe15_rasxbt.png"),
+    url("https://res.cloudinary.com/dgwvbd9ki/image/upload/v1712220683/serenitas/Noviomagus/djambo1990_51954_realistic_image_of_a_Roman_military_encampment_27fc8f26-bc27-44e8-a25d-4453cc81088c_nbklx5.png"),
+    url("https://res.cloudinary.com/dgwvbd9ki/image/upload/v1712220685/serenitas/Oplontis/djambo1990_51954_an_opulent_Roman_villa_nestled_amidst_lush_gar_873b32f1-f5f2-4025-ab80-399b68d1fd1a_ixk0ww.png"),
+    url("https://res.cloudinary.com/dgwvbd9ki/image/upload/v1712220667/serenitas/Pompeii/djambo1990_51954_a_bustling_Roman_tavern_its_walls_adorned_with_39f2f184-1e5f-4158-8615-c0aa0915df9d_rliknh.png");
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -20,23 +30,26 @@ body {
   overflow: hidden;
   height: 100vh;
   width: 100%;
-  min-height: 100vh;
   background-size: cover;
   background-position: center;
-  transition: background-image 2s ease;
+  transition: background-image 3s ease;
 }
 
 .homepage-salute-container {
   border: 2px solid gold;
   background-color: rgb(99, 0, 0);
   border-radius: 1.5vh;
-  height: 8vh;
-  width: 18vw;
+  height: 5vh;
+  width: 20vh;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
   color: gold;
+}
+
+.homepage-salute-container h1 {
+  font-size: 1vw;
 }
 
 .timer-container {
@@ -59,16 +72,6 @@ body {
   margin-bottom: 0.5vh;
   height: 6vh;
   width: 5vh;
-  animation: rotate 10s linear infinite;
-}
-
-@keyframes rotate {
-  0% {
-    transform: rotate(0);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
 }
 
 .homepage-features {
@@ -83,4 +86,15 @@ body {
   top: 10vh;
   right: 10vh;
   height: 40vh;
+}
+
+.homepage-features img {
+  background-color: black;
+}
+
+@media (max-width: 1000px) {
+  .homepage-features,
+  .homepage-salute-container {
+    display: none;
+  }
 }

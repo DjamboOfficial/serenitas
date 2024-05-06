@@ -173,7 +173,7 @@ const AuthenticatedToDoList = () => {
                         className="auth-little-button"
                         onClick={handleCancelEdit}
                       >
-                        {user.username}
+                        Cancel
                       </button>
                     </div>
                   )}

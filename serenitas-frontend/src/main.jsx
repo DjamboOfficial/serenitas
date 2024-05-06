@@ -9,7 +9,6 @@ ReactDOM.render(
   <Provider store={store}>
     <AuthProvider>
       {" "}
-      {/* Assuming AuthProvider is a context provider */}
       <React.StrictMode>
         <App />
       </React.StrictMode>

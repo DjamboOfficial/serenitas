@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../contexts/authContext";
-import { fetchProjects } from "../utils/projectAPI";
 
 export const Dashboard = () => {
   const { isLoggedIn } = useAuth();
 
   return (
     <>
-      <p>Ciao!</p>
+      {isLoggedIn ? (
+        <div>Ariciao!</div>
+      ) : (
+        <div>Please log in to access the dashboard.</div>
+      )}
     </>
   );
 };

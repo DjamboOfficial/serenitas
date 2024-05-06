@@ -24,13 +24,6 @@ const ModesContainer = ({
     "https://res.cloudinary.com/dgwvbd9ki/image/upload/v1712220667/serenitas/Pompeii/djambo1990_51954_a_bustling_Roman_tavern_its_walls_adorned_with_39f2f184-1e5f-4158-8615-c0aa0915df9d_rliknh.png",
   ];
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, [images.length]);
-
   const backgroundImageStyle = {
     backgroundImage: `url(${images[currentImageIndex]})`,
     backgroundColor: "#f0f0f0", // Fallback background color

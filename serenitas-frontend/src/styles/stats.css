@@ -2,8 +2,10 @@
   border-radius: 5vh;
   background-color: transparent;
   background-image: url("https://res.cloudinary.com/dgwvbd9ki/image/upload/v1712126142/serenitas/djambo1990_51954_an_abacus_painted_in_the_style_of_Jacques_Loui_46c3099a-cf86-437f-b5da-a810de12f2f8-removebg-preview_wkvcyd.png");
-  background-size: cover;
-  width: 8vh; /* Initial width */
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 8vw; /* Initial width */
   height: 8vh; /* Initial height */
   transition: width 5s ease, height 5s ease, background-color 5s ease,
     background-image 1s ease-in; /* Adjust transition durations */

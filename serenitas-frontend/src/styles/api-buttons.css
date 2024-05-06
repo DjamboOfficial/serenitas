@@ -1,7 +1,9 @@
 .open-button {
   background-image: url("https://res.cloudinary.com/dgwvbd9ki/image/upload/v1708599341/portfolio/1-removebg-preview_jtzf52.png");
   background-color: transparent;
-  background-size: cover;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
   height: 10vh;
   right: 10vh;
   width: 10vh;

@@ -11,6 +11,7 @@ connectToDatabase();
 const authRoutes = require("./routes/authRoutes");
 const userProjectRoutes = require("./routes/userProjectRoutes.js");
 const adminRoutes = require("./routes/adminRoutes.js");
+const userRoutes = require("./routes/userRoutes.js");
 
 app.use(
   cors({
@@ -22,6 +23,7 @@ app.use(bodyParser.json());
 app.use("/auth", authRoutes);
 app.use("/protected", userProjectRoutes);
 app.use("/admin", adminRoutes);
+app.use("/user", userRoutes);
 
 app.get("/", (req, res) => {
   res.send("Welcome to the serenitas backend");
