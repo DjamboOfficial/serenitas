@@ -4,14 +4,14 @@
   font-family: "Cinzel Decorative", sans-serif;
   margin: 2vh;
   height: 5vh;
-  width: 10vh;
+  width: 12vh;
   font-size: 1.2em;
   background-color: black;
   color: white;
   border-radius: 1em;
   transition-duration: 1s;
 }
-
+/* Hey !*/
 .timer-button:hover {
   border-radius: 0%;
   background-color: white;
